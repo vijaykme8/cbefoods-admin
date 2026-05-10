@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#8806CE" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Tiffin Admin" />
+<title>Tiffin CBE Admin</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.css" />
+<link rel="icon" href="icons/admin-icon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-bar">
+    <div>
+      <div class="eyebrow">Tiffin CBE</div>
+      <h1 class="brand-title"><span>Admin</span> Kitchen</h1>
+      <p class="muted" id="connectionText">Firebase live control panel</p>
+    </div>
+    <button class="icon-btn" id="refreshBtn" type="button" title="Refresh">↻</button>
+  </header>
+
+  <main>
+    <section class="card login-card" id="loginCard">
+      <div>
+        <h2 class="section-title">Owner login</h2>
+        <p class="muted">Login with your Firebase admin email. The account UID must be added to the <b>admins</b> collection.</p>
+      </div>
+      <label class="field">
+        <span>Email</span>
+        <input class="input" id="adminEmail" type="email" autocomplete="email" placeholder="owner@example.com" />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input class="input" id="adminPassword" type="password" autocomplete="current-password" placeholder="Password" />
+      </label>
+      <button class="btn brand" id="loginBtn" type="button">Login</button>
+      <div class="notice" id="loginHelp" hidden></div>
+    </section>
+
+    <section class="admin-panel" id="adminPanel" hidden>
+      <div class="admin-header-card">
+        <div>
+          <div class="admin-name" id="adminName">Owner</div>
+          <div class="muted" id="storeStatusText">Store status loading...</div>
+        </div>
+        <button class="btn soft small" id="logoutBtn" type="button">Logout</button>
+      </div>
+
+      <nav class="tabs" aria-label="Admin sections">
+        <button class="tab active" data-tab="orders" type="button">Orders</button>
+        <button class="tab" data-tab="menu" type="button">Menu</button>
+        <button class="tab" data-tab="riders" type="button">Riders</button>
+        <button class="tab" data-tab="settings" type="button">Settings</button>
+      </nav>
+
+      <section class="tab-section active" id="ordersSection">
+        <div class="stats-grid">
+          <div class="stat-card"><span>Today orders</span><strong id="statOrders">0</strong></div>
+          <div class="stat-card"><span>Today revenue</span><strong id="statRevenue">₹0</strong></div>
+          <div class="stat-card"><span>Active</span><strong id="statActive">0</strong></div>
+          <div class="stat-card"><span>Preparing</span><strong id="statPreparing">0</strong></div>
+        </div>
+
+        <div class="filter-strip">
+          <button class="filter-chip active" data-filter="active" type="button">Active</button>
+          <button class="filter-chip" data-filter="today" type="button">Today</button>
+          <button class="filter-chip" data-filter="all" type="button">All</button>
+          <button class="filter-chip" data-filter="delivered" type="button">Delivered</button>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Live orders</h2>
+              <p class="muted">Status changes are shown in the customer track screen.</p>
+            </div>
+            <button class="btn soft small" id="soundBtn" type="button">Sound on</button>
+          </div>
+          <div class="stack" id="ordersList"></div>
+        </div>
+      </section>
+
+      <section class="tab-section" id="menuSection">
+        <div class="card">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Menu control</h2>
+              <p class="muted">Price and sold-out changes sync to the customer menu.</p>
+            </div>
+            <button class="btn brand small" id="seedMenuBtn" type="button">Seed</button>
+          </div>
+          <div class="stack" id="menuList"></div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Add new item</h2>
+          <label class="field"><span>Name</span><input class="input" id="newItemName" placeholder="Protein egg lunch" /></label>
+          <div class="two-col">
+            <label class="field"><span>Price</span><input class="input" id="newItemPrice" type="number" min="0" placeholder="89" /></label>
+            <label class="field"><span>Category</span><select class="input" id="newItemCategory"><option value="protein">Protein</option><option value="regular">Regular</option></select></label>
+          </div>
+          <label class="field"><span>Protein</span><input class="input" id="newItemProtein" placeholder="45g" /></label>
+          <label class="field"><span>Description</span><textarea class="input textarea" id="newItemDesc" placeholder="Ingredients / notes"></textarea></label>
+          <button class="btn" id="addItemBtn" type="button">Add item</button>
+        </div>
+      </section>
+
+      <section class="tab-section" id="ridersSection">
+        <div class="card">
+          <h2 class="section-title">Delivery partners</h2>
+          <div class="stack" id="riderList"></div>
+        </div>
+        <div class="card">
+          <h2 class="section-title">Add rider</h2>
+          <label class="field"><span>Name</span><input class="input" id="riderName" placeholder="Rider name" /></label>
+          <label class="field"><span>Phone</span><input class="input" id="riderPhone" inputmode="numeric" placeholder="9876543210" /></label>
+          <button class="btn" id="addRiderBtn" type="button">Add rider</button>
+        </div>
+      </section>
+
+      <section class="tab-section" id="settingsSection">
+        <div class="card">
+          <h2 class="section-title">Store settings</h2>
+          <label class="switch-row">
+            <span><b>Kitchen open</b><small>Controls ordering in customer PWA</small></span>
+            <input id="kitchenOpen" type="checkbox" />
+          </label>
+          <label class="field"><span>Store name</span><input class="input" id="storeName" placeholder="Tiffin CBE" /></label>
+          <div class="two-col">
+            <label class="field"><span>Cut-off time</span><input class="input" id="cutoffTime" placeholder="11:00 AM" /></label>
+            <label class="field"><span>ETA</span><input class="input" id="eta" placeholder="15 - 25 mins" /></label>
+          </div>
+          <div class="two-col">
+            <label class="field"><span>Delivery fee</span><input class="input" id="deliveryFee" type="number" min="0" placeholder="0" /></label>
+            <label class="field"><span>Minimum order</span><input class="input" id="minOrder" type="number" min="0" placeholder="0" /></label>
+          </div>
+          <label class="field"><span>Closed message</span><input class="input" id="closedMessage" placeholder="Kitchen closed. Orders open tomorrow." /></label>
+          <button class="btn brand" id="saveSettingsBtn" type="button">Save settings</button>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore-compat.js"></script>
+<script src="ola-map-v2.js"></script>
+<script src="admin.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+  }
+</script>
+</body>
+</html>

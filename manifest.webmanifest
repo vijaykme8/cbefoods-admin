@@ -1,0 +1,17 @@
+{
+  "name": "Tiffin CBE Admin",
+  "short_name": "Admin",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F5F7",
+  "theme_color": "#8806CE",
+  "icons": [
+    {
+      "src": "icons/admin-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
