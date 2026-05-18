@@ -1,164 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#8806CE" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Tiffin Admin" />
-<title>Tiffin CBE Admin</title>
-<link rel="manifest" href="manifest.webmanifest" />
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.css" />
-<link rel="icon" href="icons/admin-icon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-<div class="app-shell">
-  <header class="top-bar">
-    <div>
-      <div class="eyebrow">Tiffin CBE</div>
-      <h1 class="brand-title"><span>Admin</span> Kitchen</h1>
-      <p class="muted" id="connectionText">Firebase live control panel</p>
-    </div>
-    <button class="icon-btn" id="refreshBtn" type="button" title="Refresh">↻</button>
-  </header>
-
-  <main>
-    <section class="card login-card" id="loginCard">
-      <div>
-        <h2 class="section-title">Owner login</h2>
-        <p class="muted">Login with your Firebase admin email. The account UID must be added to the <b>admins</b> collection.</p>
-      </div>
-      <label class="field">
-        <span>Email</span>
-        <input class="input" id="adminEmail" type="email" autocomplete="email" placeholder="owner@example.com" />
-      </label>
-      <label class="field">
-        <span>Password</span>
-        <input class="input" id="adminPassword" type="password" autocomplete="current-password" placeholder="Password" />
-      </label>
-      <button class="btn brand" id="loginBtn" type="button">Login</button>
-      <div class="notice" id="loginHelp" hidden></div>
-    </section>
-
-    <section class="admin-panel" id="adminPanel" hidden>
-      <div class="admin-header-card">
-        <div>
-          <div class="admin-name" id="adminName">Owner</div>
-          <div class="muted" id="storeStatusText">Store status loading...</div>
-        </div>
-        <button class="btn soft small" id="logoutBtn" type="button">Logout</button>
-      </div>
-
-      <nav class="tabs" aria-label="Admin sections">
-        <button class="tab active" data-tab="orders" type="button">Orders</button>
-        <button class="tab" data-tab="menu" type="button">Menu</button>
-        <button class="tab" data-tab="riders" type="button">Riders</button>
-        <button class="tab" data-tab="settings" type="button">Settings</button>
-      </nav>
-
-      <section class="tab-section active" id="ordersSection">
-        <div class="stats-grid">
-          <div class="stat-card"><span>Today orders</span><strong id="statOrders">0</strong></div>
-          <div class="stat-card"><span>Today revenue</span><strong id="statRevenue">₹0</strong></div>
-          <div class="stat-card"><span>Active</span><strong id="statActive">0</strong></div>
-          <div class="stat-card"><span>Preparing</span><strong id="statPreparing">0</strong></div>
-        </div>
-
-        <div class="filter-strip">
-          <button class="filter-chip active" data-filter="active" type="button">Active</button>
-          <button class="filter-chip" data-filter="today" type="button">Today</button>
-          <button class="filter-chip" data-filter="all" type="button">All</button>
-          <button class="filter-chip" data-filter="delivered" type="button">Delivered</button>
-        </div>
-
-        <div class="card">
-          <div class="section-head">
-            <div>
-              <h2 class="section-title">Live orders</h2>
-              <p class="muted">Status changes are shown in the customer track screen.</p>
-            </div>
-            <button class="btn soft small" id="soundBtn" type="button">Sound on</button>
-          </div>
-          <div class="stack" id="ordersList"></div>
-        </div>
-      </section>
-
-      <section class="tab-section" id="menuSection">
-        <div class="card">
-          <div class="section-head">
-            <div>
-              <h2 class="section-title">Menu control</h2>
-              <p class="muted">Price and sold-out changes sync to the customer menu.</p>
-            </div>
-            <button class="btn brand small" id="seedMenuBtn" type="button">Seed</button>
-          </div>
-          <div class="stack" id="menuList"></div>
-        </div>
-
-        <div class="card">
-          <h2 class="section-title">Add new item</h2>
-          <label class="field"><span>Name</span><input class="input" id="newItemName" placeholder="Protein egg lunch" /></label>
-          <div class="two-col">
-            <label class="field"><span>Price</span><input class="input" id="newItemPrice" type="number" min="0" placeholder="89" /></label>
-            <label class="field"><span>Category</span><select class="input" id="newItemCategory"><option value="protein">Protein</option><option value="regular">Regular</option></select></label>
-          </div>
-          <label class="field"><span>Protein</span><input class="input" id="newItemProtein" placeholder="45g" /></label>
-          <label class="field"><span>Description</span><textarea class="input textarea" id="newItemDesc" placeholder="Ingredients / notes"></textarea></label>
-          <button class="btn" id="addItemBtn" type="button">Add item</button>
-        </div>
-      </section>
-
-      <section class="tab-section" id="ridersSection">
-        <div class="card">
-          <h2 class="section-title">Delivery partners</h2>
-          <div class="stack" id="riderList"></div>
-        </div>
-        <div class="card">
-          <h2 class="section-title">Add rider</h2>
-          <label class="field"><span>Name</span><input class="input" id="riderName" placeholder="Rider name" /></label>
-          <label class="field"><span>Phone</span><input class="input" id="riderPhone" inputmode="numeric" placeholder="9876543210" /></label>
-          <button class="btn" id="addRiderBtn" type="button">Add rider</button>
-        </div>
-      </section>
-
-      <section class="tab-section" id="settingsSection">
-        <div class="card">
-          <h2 class="section-title">Store settings</h2>
-          <label class="switch-row">
-            <span><b>Kitchen open</b><small>Controls ordering in customer PWA</small></span>
-            <input id="kitchenOpen" type="checkbox" />
-          </label>
-          <label class="field"><span>Store name</span><input class="input" id="storeName" placeholder="Tiffin CBE" /></label>
-          <div class="two-col">
-            <label class="field"><span>Cut-off time</span><input class="input" id="cutoffTime" placeholder="11:00 AM" /></label>
-            <label class="field"><span>ETA</span><input class="input" id="eta" placeholder="15 - 25 mins" /></label>
-          </div>
-          <div class="two-col">
-            <label class="field"><span>Delivery fee</span><input class="input" id="deliveryFee" type="number" min="0" placeholder="0" /></label>
-            <label class="field"><span>Minimum order</span><input class="input" id="minOrder" type="number" min="0" placeholder="0" /></label>
-          </div>
-          <label class="field"><span>Closed message</span><input class="input" id="closedMessage" placeholder="Kitchen closed. Orders open tomorrow." /></label>
-          <button class="btn brand" id="saveSettingsBtn" type="button">Save settings</button>
-        </div>
-      </section>
-    </section>
-  </main>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script src="firebase-config.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore-compat.js"></script>
-<script src="ola-map-v2.js"></script>
-<script src="admin.js"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
-  }
-</script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#8806CE"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CBE Admin">
+<title>Coimbatore Foods Admin</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/admin-icon.svg"><link rel="stylesheet" href="styles.css">
+</head><body><div class="app-shell">
+<header class="topbar"><div><p class="eyebrow">Coimbatore Foods</p><h1>Admin Control</h1><small id="connectionText">Connecting...</small></div><button id="refreshBtn" class="icon-btn">↻</button></header>
+<main>
+<section id="loginCard" class="card login-card"><h2>Owner login</h2><p class="muted">Use your Firebase admin email. Add this account UID in <b>admins</b> collection to allow access.</p><label>Email<input id="adminEmail" type="email" autocomplete="email" placeholder="owner@example.com"></label><label>Password<input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password"></label><button id="loginBtn" class="btn primary">Login</button><div id="notice" class="notice" hidden></div></section>
+<section id="adminPanel" hidden>
+<div class="profile-card"><div><b id="adminName">Owner</b><p id="storeLine" class="muted">Store ready</p></div><div class="row"><button id="toggleStoreBtn" class="btn soft">Toggle store</button><button id="logoutBtn" class="btn ghost">Logout</button></div></div>
+<nav class="tabs"><button class="tab active" data-tab="orders">Orders</button><button class="tab" data-tab="riders">Riders</button><button class="tab" data-tab="settings">Settings</button></nav>
+<section id="orders" class="tab-panel active">
+<div class="stats"><div><span>Today</span><b id="statToday">0</b></div><div><span>Revenue</span><b id="statRevenue">₹0</b></div><div><span>Active</span><b id="statActive">0</b></div><div><span>Ready</span><b id="statReady">0</b></div></div>
+<div class="filters"><button class="chip active" data-filter="active">Active</button><button class="chip" data-filter="new">New</button><button class="chip" data-filter="preparing">Preparing</button><button class="chip" data-filter="delivery">Delivery</button><button class="chip" data-filter="past">Past</button><button class="chip" data-filter="all">All</button></div>
+<div id="ordersList" class="list"></div></section>
+<section id="riders" class="tab-panel"><div class="card"><h2>Riders</h2><p class="muted">Riders appear after first phone OTP login in Rider PWA. You can also create a placeholder here.</p><div class="grid-two"><input id="newRiderName" placeholder="Rider name"><input id="newRiderPhone" placeholder="10 digit phone"></div><button id="addRiderBtn" class="btn primary">Add rider</button></div><div id="ridersList" class="list"></div></section>
+<section id="settings" class="tab-panel"><div class="card"><h2>Restaurant location</h2><p class="muted">Default used for customer tracking and delivery fee fallback.</p><input id="restaurantAddress" placeholder="Restaurant address"><div class="grid-two"><input id="restaurantLat" placeholder="Latitude"><input id="restaurantLng" placeholder="Longitude"></div><button id="saveSettingsBtn" class="btn primary">Save settings</button></div></section>
+</section></main></div>
+<script src="firebase-config.js"></script><script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore-compat.js"></script><script src="admin.js"></script>
+</body></html>
