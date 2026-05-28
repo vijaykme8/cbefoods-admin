@@ -1,4 +1,5 @@
-const CACHE='cbe-pwa-v1';
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','./index.html','./styles.css','./manifest.webmanifest','./firebase-config.js'])));self.skipWaiting()});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))))});
+const CACHE_NAME='cbe-admin-desktop-v1-20260528';
+const APP_SHELL=['./','./index.html','./styles.css','./admin.js','./manifest.webmanifest','./icons/admin-icon.svg'];
+self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).catch(()=>{}))});
+self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))));self.clients.claim()});
+self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;if(new URL(req.url).origin!==self.location.origin)return;event.respondWith(fetch(req).then(res=>{const copy=res.clone();caches.open(CACHE_NAME).then(cache=>cache.put(req,copy)).catch(()=>{});return res}).catch(()=>caches.match(req).then(cached=>cached||caches.match('./index.html'))))});
