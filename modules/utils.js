@@ -215,3 +215,37 @@ export function orderTimerInfo(order){
   }
   return {label,level,detail,ageMinutes:age,stageAgeMinutes:stageAge,reasons};
 }
+
+
+export function dateKey(value){
+  const date=toDate(value);
+  if(date.getTime()<=0)return '';
+  const year=date.getFullYear();
+  const month=String(date.getMonth()+1).padStart(2,'0');
+  const day=String(date.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+
+export function todayDateKey(){
+  return dateKey(new Date());
+}
+
+export function addDays(date,days){
+  const copy=new Date(date);
+  copy.setDate(copy.getDate()+days);
+  return copy;
+}
+
+export function dateStripDays(center=new Date(),before=3,after=4){
+  const out=[];
+  for(let i=-before;i<=after;i++){
+    const date=addDays(center,i);
+    out.push({
+      key:dateKey(date),
+      day:date.toLocaleDateString('en-IN',{weekday:'short'}),
+      date:String(date.getDate()).padStart(2,'0'),
+      month:date.toLocaleDateString('en-IN',{month:'short'})
+    });
+  }
+  return out;
+}

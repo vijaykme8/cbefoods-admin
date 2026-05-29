@@ -1,3 +1,5 @@
+function todayKey(){return new Date().toISOString().slice(0,10)}
+
 export const state={
   storeId:window.TIFFIN_STORE_ID||'main',
   auth:null,
@@ -11,6 +13,7 @@ export const state={
   selectedOrderId:'',
   view:'dashboard',
   filter:'active',
+  selectedDateKey:todayKey(),
   bootedOrders:false,
   lastOrderIds:new Set(),
   unsubs:[]

@@ -121,6 +121,16 @@
     </section>
 
     <section id="view-orders" class="view">
+      <div class="date-view-panel">
+        <div class="date-view-head">
+          <div>
+            <h3>Orders by date</h3>
+            <p>Select a date to focus the order board.</p>
+          </div>
+          <button id="clearDateFilterBtn" class="ghost-btn" type="button">All dates</button>
+        </div>
+        <div id="orderDateStrip" class="date-strip"></div>
+      </div>
       <div class="toolbar">
         <div id="orderFilters" class="filter-row">
           <button class="filter active" data-filter="active" type="button">Active <span id="filterActiveBadge" class="filter-badge" hidden>0</span></button>

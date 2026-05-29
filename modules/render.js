@@ -6,7 +6,7 @@ import {renderMenu} from './menu.js';
 import {renderRiders} from './riders.js';
 import {renderSettings} from './settings.js';
 import {renderDrawer} from './drawer.js';
-import {$,assignedRiderName,attentionReasons,isActiveStatus,isDelayed,isToday,statusOf} from './utils.js';
+import {$,assignedRiderName,attentionReasons,dateKey,isActiveStatus,isDelayed,isToday,statusOf} from './utils.js';
 
 export function renderAll(){
   renderDashboard();
@@ -20,7 +20,8 @@ export function renderAll(){
 }
 
 function renderUrgencyBadges(){
-  const paid=state.orders.filter(order=>order.paymentStatus==='paid'||order.adminVisible===true);
+  let paid=state.orders.filter(order=>order.paymentStatus==='paid'||order.adminVisible===true);
+  if(state.selectedDateKey)paid=paid.filter(order=>dateKey(order.createdAt||order.paidAt||order.createdAtClient)===state.selectedDateKey);
   const active=paid.filter(order=>isActiveStatus(statusOf(order)));
   const today=paid.filter(order=>isToday(order.createdAt||order.paidAt));
   const unassigned=active.filter(order=>!assignedRiderName(order)).length;

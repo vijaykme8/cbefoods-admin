@@ -46,6 +46,9 @@ function bindGlobal(){
 
     const printSlip=event.target.closest('[data-print-slip]');
     if(printSlip)printKitchenSlip(printSlip.dataset.printSlip);
+
+    const datePill=event.target.closest('[data-date-key]');
+    if(datePill){state.selectedDateKey=datePill.dataset.dateKey;renderAll();}
   });
 
   $('closeDrawer').addEventListener('click',closeDrawer);
@@ -70,6 +73,7 @@ function bindGlobal(){
   $('notifyBtn').addEventListener('click',requestNotifications);
   $('themeToggle').addEventListener('click',toggleTheme);
   $('exportOrdersBtn').addEventListener('click',exportOrdersCsv);
+  $('clearDateFilterBtn').addEventListener('click',()=>{state.selectedDateKey='';renderAll()});
 
   document.addEventListener('keydown',event=>{
     if(event.key==='Escape')closeDrawer();

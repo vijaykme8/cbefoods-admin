@@ -208,3 +208,18 @@ body[data-theme="light"] .soft-btn{color:#6B129D;background:rgba(136,6,206,.08);
 .timer-chip.amber{background:rgba(246,166,9,.10);border-color:rgba(246,166,9,.22)}
 .timer-chip.red{background:rgba(255,56,60,.10);border-color:rgba(255,56,60,.22)}
 body[data-theme="light"] .order-card:before{background:rgba(18,19,15,.10)}
+
+.date-view-panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:16px;margin-bottom:16px}
+.date-view-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px}
+.date-view-head h3{margin:0;font-size:18px;font-weight:600;letter-spacing:-.02em}
+.date-view-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.date-strip{display:grid;grid-template-columns:repeat(8,minmax(72px,1fr));gap:10px}
+.date-pill{min-height:86px;border-radius:22px;background:rgba(127,127,127,.06);border:1px solid var(--line);color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;transition:transform .16s ease,background .16s ease,border-color .16s ease}
+.date-pill:hover{transform:translateY(-1px);background:rgba(127,127,127,.09)}
+.date-pill span{font-size:13px;font-weight:500}
+.date-pill strong{width:42px;height:42px;border-radius:999px;background:var(--panel2);color:var(--text);display:grid;place-items:center;font-size:17px;font-weight:700;box-shadow:0 8px 18px rgba(0,0,0,.08)}
+.date-pill em{position:absolute;top:8px;right:8px;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#FF383C;color:#FDFDFF;font-size:11px;font-style:normal;font-weight:700;display:grid;place-items:center}
+.date-pill.active{background:var(--green);border-color:var(--green);color:#FDFDFF;box-shadow:0 14px 32px rgba(8,160,69,.18)}
+.date-pill.active strong{background:#FDFDFF;color:#12130F}
+.date-pill.active em{background:#12130F;color:#FDFDFF}
+body[data-theme="light"] .date-pill strong{background:#FFFFFF}

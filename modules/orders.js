@@ -1,5 +1,5 @@
 import {state} from './state.js';
-import {$,assignedRiderName,attentionReasons,customerName,customerPhone,deliveryAddress,escapeHtml,formatTime,isActiveStatus,isDelayed,isToday,itemCount,money,orderId,orderTotal,shortId,orderTimerInfo,statusLabel,statusOf} from './utils.js';
+import {$,assignedRiderName,attentionReasons,customerName,customerPhone,dateKey,dateStripDays,deliveryAddress,escapeHtml,formatTime,isActiveStatus,isDelayed,isToday,itemCount,money,orderId,orderTotal,shortId,orderTimerInfo,statusLabel,statusOf} from './utils.js';
 
 const columns=[
   {key:'confirmed',label:'New'},
@@ -12,6 +12,9 @@ const columns=[
 export function filteredOrders(){
   const query=($('globalSearch')?.value||'').trim().toLowerCase();
   let list=state.orders.filter(order=>order.paymentStatus==='paid'||order.adminVisible===true);
+  if(state.selectedDateKey){
+    list=list.filter(order=>dateKey(order.createdAt||order.paidAt||order.createdAtClient)===state.selectedDateKey);
+  }
   if(state.filter==='active')list=list.filter(order=>isActiveStatus(statusOf(order)));
   if(state.filter==='today')list=list.filter(order=>isToday(order.createdAt||order.paidAt));
   if(state.filter==='unassigned')list=list.filter(order=>isActiveStatus(statusOf(order))&&!assignedRiderName(order));
@@ -29,6 +32,7 @@ export function filteredOrders(){
 }
 
 export function renderOrdersBoard(){
+  renderDateStrip();
   const list=filteredOrders();
   $('ordersBoard').innerHTML=columns.map(column=>{
     const colOrders=list.filter(order=>statusOf(order)===column.key);
@@ -88,4 +92,22 @@ function nextActionButton(order){
   if(status==='preparing')return `<button class="small-btn green" data-status="${id}" data-value="out_for_delivery" type="button">On way</button>`;
   if(status==='out_for_delivery')return `<button class="small-btn green" data-status="${id}" data-value="delivered" type="button">Delivered</button>`;
   return `<button class="small-btn" data-status="${id}" data-value="confirmed" type="button">Reopen</button>`;
+}
+
+
+function renderDateStrip(){
+  const wrap=$('orderDateStrip');
+  if(!wrap)return;
+  const selected=state.selectedDateKey||dateKey(new Date());
+  const center=selected?new Date(`${selected}T12:00:00`):new Date();
+  const days=dateStripDays(center,3,4);
+  wrap.innerHTML=days.map(day=>{
+    const active=day.key===state.selectedDateKey;
+    const count=state.orders.filter(order=>(order.paymentStatus==='paid'||order.adminVisible===true)&&dateKey(order.createdAt||order.paidAt||order.createdAtClient)===day.key).length;
+    return `<button class="date-pill ${active?'active':''}" data-date-key="${escapeHtml(day.key)}" type="button">
+      <span>${escapeHtml(day.day)}</span>
+      <strong>${escapeHtml(day.date)}</strong>
+      ${count?`<em>${count}</em>`:''}
+    </button>`;
+  }).join('');
 }
