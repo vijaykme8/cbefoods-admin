@@ -1,7 +1,7 @@
 import {$} from './utils.js';
 
 export function initTheme(){
-  const saved=localStorage.getItem('cbe_admin_theme')||'dark';
+  const saved=localStorage.getItem('cbe_admin_theme')||'light';
   applyTheme(saved);
 }
 
