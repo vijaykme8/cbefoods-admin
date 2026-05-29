@@ -45,7 +45,7 @@ function drawerHtml(order){
   const timeline=Array.isArray(order.timeline)?order.timeline:[];
   return `
     <section class="drawer-section">
-      <h4>Total taken for order</h4>
+      <h4>Total time taken for order</h4>
       <div class="timer-chip drawer-timer ${escapeHtml(timer.level)}">
         <strong>${escapeHtml(timer.label)}</strong>
         <span>${escapeHtml(timer.detail)}</span>
