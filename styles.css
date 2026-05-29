@@ -226,3 +226,109 @@ body[data-theme="light"] .date-pill strong{background:#FFFFFF}
 
 .date-pill small{font-size:11px;font-weight:500;color:var(--muted);line-height:1}
 .date-pill.active small{color:rgba(253,253,255,.78)}
+
+/* date-card refined override */
+
+.date-view-panel{padding:18px 18px 20px}
+.date-view-head{margin-bottom:16px}
+.date-view-head h3{font-size:19px}
+.date-view-head p{font-weight:400}
+.date-strip{display:grid;grid-template-columns:repeat(8,minmax(82px,1fr));gap:12px}
+.date-pill{
+  min-height:104px;
+  border-radius:26px;
+  padding:12px 10px;
+  background:linear-gradient(180deg,rgba(127,127,127,.075),rgba(127,127,127,.035));
+  border:1px solid var(--line);
+  color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  position:relative;
+  box-shadow:0 10px 28px rgba(0,0,0,.06);
+}
+.date-pill:hover{transform:translateY(-2px);background:rgba(127,127,127,.09)}
+.date-day{
+  font-size:13px;
+  font-weight:500;
+  line-height:1;
+}
+.date-core{
+  width:58px;
+  height:58px;
+  border-radius:999px;
+  background:var(--panel2);
+  border:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1px;
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+.date-core strong{
+  width:auto;
+  height:auto;
+  border-radius:0;
+  background:transparent;
+  color:var(--text);
+  display:block;
+  font-size:20px;
+  font-weight:700;
+  line-height:1;
+  box-shadow:none;
+}
+.date-core small{
+  font-size:10px;
+  font-weight:500;
+  color:var(--muted);
+  line-height:1;
+  text-transform:uppercase;
+}
+.date-pill em{
+  position:absolute;
+  top:8px;
+  right:8px;
+  min-width:22px;
+  height:22px;
+  padding:0 7px;
+  border-radius:999px;
+  background:#12130F;
+  color:#FDFDFF;
+  font-size:11px;
+  font-style:normal;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 18px rgba(0,0,0,.20);
+}
+.date-pill.active{
+  background:#08A045;
+  border-color:#08A045;
+  color:#FDFDFF;
+  box-shadow:0 16px 36px rgba(8,160,69,.20);
+}
+.date-pill.active .date-core{
+  background:#FDFDFF;
+  border-color:#FDFDFF;
+}
+.date-pill.active .date-core strong{color:#12130F}
+.date-pill.active .date-core small{color:rgba(18,19,15,.55)}
+.date-pill.active .date-day{color:#FDFDFF}
+.date-pill.active em{
+  background:#12130F;
+  color:#FDFDFF;
+}
+body[data-theme="light"] .date-pill{
+  background:#FFFFFF;
+  box-shadow:0 10px 28px rgba(18,19,15,.06);
+}
+body[data-theme="light"] .date-core{
+  background:#F7F7F8;
+}
+body[data-theme="light"] .date-pill.active{
+  background:#08A045;
+}
