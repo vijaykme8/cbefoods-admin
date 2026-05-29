@@ -184,7 +184,7 @@ export function formatMinutesLabel(minutes){
   return m?`${h}h ${m}m`:`${h}h`;
 }
 
-export function slaInfo(order){
+export function orderTimerInfo(order){
   const status=statusOf(order);
   const age=orderAgeMinutes(order);
   const stageAge=stageAgeMinutes(order);

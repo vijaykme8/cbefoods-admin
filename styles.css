@@ -132,14 +132,14 @@ textarea{resize:vertical}
 @media(max-width:1023px){.dashboard-shell,.login-screen{display:none}.desktop-warning{display:grid;place-items:center;min-height:100dvh;padding:24px}.desktop-warning-card{max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:28px;text-align:center}.warning-mark{width:52px;height:52px;border-radius:18px;background:var(--brand);display:grid;place-items:center;margin:0 auto 18px;font-weight:900;color:#FDFDFF}.desktop-warning-card p{color:var(--muted);line-height:1.5}}
 @media(min-width:1024px) and (max-width:1280px){.metric-grid{grid-template-columns:repeat(3,1fr)}.orders-board{grid-template-columns:repeat(3,1fr)}.panel-grid,.two-pane{grid-template-columns:1fr}.editor-card{position:static}.settings-grid{grid-template-columns:repeat(2,1fr)}}
 
-.sla-chip{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);background:rgba(127,127,127,.07)}
-.sla-chip strong{font-size:13px}
-.sla-chip span{font-size:12px;color:var(--muted);font-weight:800}
-.sla-chip.green{background:rgba(8,160,69,.12);border-color:rgba(8,160,69,.28)}
-.sla-chip.green strong,.sla-text.green{color:#08A045}
-.sla-chip.amber{background:rgba(246,166,9,.14);border-color:rgba(246,166,9,.30)}
-.sla-chip.amber strong,.sla-text.amber{color:#F6A609}
-.sla-chip.red{background:rgba(255,56,60,.14);border-color:rgba(255,56,60,.30)}
-.sla-chip.red strong,.sla-text.red{color:#FF383C}
-.drawer-sla{margin-top:4px}
-.attention-row .sla-text{font-size:13px}
+.timer-chip{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);background:rgba(127,127,127,.07)}
+.timer-chip strong{font-size:13px}
+.timer-chip span{font-size:12px;color:var(--muted);font-weight:800}
+.timer-chip.green{background:rgba(8,160,69,.12);border-color:rgba(8,160,69,.28)}
+.timer-chip.green strong,.timer-text.green{color:#08A045}
+.timer-chip.amber{background:rgba(246,166,9,.14);border-color:rgba(246,166,9,.30)}
+.timer-chip.amber strong,.timer-text.amber{color:#F6A609}
+.timer-chip.red{background:rgba(255,56,60,.14);border-color:rgba(255,56,60,.30)}
+.timer-chip.red strong,.timer-text.red{color:#FF383C}
+.drawer-timer{margin-top:4px}
+.attention-row .timer-text{font-size:13px}

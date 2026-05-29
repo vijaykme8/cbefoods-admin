@@ -1,5 +1,5 @@
 import {state} from './state.js';
-import {$,attentionReasons,customerName,customerPhone,escapeHtml,formatTime,isActiveStatus,isDelayed,isToday,itemCount,money,orderId,orderItems,orderTotal,shortId,slaInfo,statusLabel,statusOf} from './utils.js';
+import {$,attentionReasons,customerName,customerPhone,escapeHtml,formatTime,isActiveStatus,isDelayed,isToday,itemCount,money,orderId,orderItems,orderTotal,shortId,orderTimerInfo,statusLabel,statusOf} from './utils.js';
 
 export function renderDashboard(){
   const paid=state.orders.filter(order=>order.paymentStatus==='paid'||order.adminVisible===true);
@@ -42,10 +42,10 @@ function miniOrderRow(order){
 }
 
 function attentionRow(order){
-  const sla=slaInfo(order);
+  const timer=orderTimerInfo(order);
   return `<button class="mini-row danger-zone attention-row" type="button" data-open-order="${escapeHtml(orderId(order))}">
-    <div><strong>#${shortId(orderId(order))} · ${escapeHtml(customerName(order))}</strong><span>${escapeHtml(sla.reasons.join(', ')||sla.detail)}</span></div>
-    <div><strong class="sla-text ${escapeHtml(sla.level)}">${escapeHtml(sla.label)}</strong><small>${escapeHtml(customerPhone(order)||'No phone')}</small></div>
+    <div><strong>#${shortId(orderId(order))} · ${escapeHtml(customerName(order))}</strong><span>${escapeHtml(timer.reasons.join(', ')||timer.detail)}</span></div>
+    <div><strong class="timer-text ${escapeHtml(timer.level)}">${escapeHtml(timer.label)}</strong><small>${escapeHtml(customerPhone(order)||'No phone')}</small></div>
   </button>`;
 }
 

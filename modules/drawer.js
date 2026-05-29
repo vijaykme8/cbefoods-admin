@@ -1,5 +1,5 @@
 import {state} from './state.js';
-import {$,assignedRiderName,assignedRiderPhone,clean,customerName,customerPhone,deliveryAddress,escapeHtml,formatTime,itemCount,money,orderId,orderItems,orderTotal,shortId,slaInfo,statusLabel,statusOf} from './utils.js';
+import {$,assignedRiderName,assignedRiderPhone,clean,customerName,customerPhone,deliveryAddress,escapeHtml,formatTime,itemCount,money,orderId,orderItems,orderTotal,shortId,orderTimerInfo,statusLabel,statusOf} from './utils.js';
 import {addIssue,assignRider,resolveIssue,updateOrder} from './operations.js';
 
 const issueTypes=['Customer not reachable','Address unclear','Food unavailable','Rider delayed','Payment issue','Refund needed','Cancelled by customer','Cancelled by restaurant','Other issue'];
@@ -34,7 +34,7 @@ export function renderDrawer(){
 function drawerHtml(order){
   const id=orderId(order);
   const status=statusOf(order);
-  const sla=slaInfo(order);
+  const timer=orderTimerInfo(order);
   const riderOptions='<option value="">No rider</option>'+state.riders.map(rider=>{
     const selected=rider.docId===order.assignedRiderDocId||rider.authUid===order.assignedRiderAuthUid?'selected':'';
     const busy=state.orders.find(item=>orderId(item)!==id&&item.assignedRiderDocId===rider.docId&&!['delivered','cancelled','canceled'].includes(statusOf(item)));
@@ -45,10 +45,10 @@ function drawerHtml(order){
   const timeline=Array.isArray(order.timeline)?order.timeline:[];
   return `
     <section class="drawer-section">
-      <h4>SLA timer</h4>
-      <div class="sla-chip drawer-sla ${escapeHtml(sla.level)}">
-        <strong>${escapeHtml(sla.label)}</strong>
-        <span>${escapeHtml(sla.detail)}</span>
+      <h4>Total taken for order</h4>
+      <div class="timer-chip drawer-timer ${escapeHtml(timer.level)}">
+        <strong>${escapeHtml(timer.label)}</strong>
+        <span>${escapeHtml(timer.detail)}</span>
       </div>
     </section>
     <section class="drawer-section">
