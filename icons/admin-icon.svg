@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="128" fill="#8806CE"/><path d="M128 178c0-28 22-50 50-50h156c28 0 50 22 50 50v156c0 28-22 50-50 50H178c-28 0-50-22-50-50V178Z" fill="#FDFDFF" opacity=".16"/><path d="M171 269c0-59 38-101 94-101 38 0 69 18 84 49l-52 25c-7-15-18-23-33-23-24 0-39 20-39 50 0 31 16 51 40 51 16 0 27-8 34-24l52 24c-15 33-47 51-86 51-57 0-94-42-94-102Z" fill="#FDFDFF"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="116" fill="#8806CE"/>
+<circle cx="382" cy="130" r="62" fill="#08A045"/>
+<text x="80" y="310" fill="#FDFDFF" font-family="Arial, sans-serif" font-size="150" font-weight="800">CF</text>
+<text x="84" y="374" fill="rgba(253,253,255,.78)" font-family="Arial, sans-serif" font-size="44" font-weight="700">ADMIN</text>
+</svg>

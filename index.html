@@ -1,30 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#8806CE">
-<title>Coimbatore Foods Admin</title>
+<title>Tiffin CBE Admin</title>
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icons/admin-icon.svg">
 <link rel="stylesheet" href="./styles.css">
-<script src="./firebase-config.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore-compat.js"></script>
 </head>
-<body>
+<body data-theme="dark">
 <div class="desktop-warning">
   <div class="desktop-warning-card">
-    <div class="brand-icon">CF</div>
-    <h1>Desktop only</h1>
-    <p>This admin control room is designed for laptop and desktop operations. Please open it on a wider screen.</p>
+    <div class="warning-mark">!</div>
+    <h1>Desktop required</h1>
+    <p>This admin dashboard is designed for laptop and desktop screens. Please open it on a wider screen.</p>
   </div>
 </div>
 
-<div id="loginScreen" class="login-screen">
-  <form id="loginForm" class="login-card">
+<main id="loginScreen" class="login-screen">
+  <section class="login-card">
     <div class="brand-lockup">
       <div class="brand-icon">CF</div>
       <div>
@@ -32,78 +26,96 @@
         <h1>Admin control room</h1>
       </div>
     </div>
-    <p class="login-copy">Manage paid orders, riders, menu, issues, analytics and store settings from one desktop dashboard.</p>
-    <label class="field">Email<input id="loginEmail" type="email" autocomplete="username" placeholder="owner@example.com"></label>
-    <label class="field">Password<input id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••"></label>
-    <button id="loginBtn" class="primary-btn full" type="submit">Login</button>
+    <p class="login-copy">Sign in with your approved admin email and password to manage live orders, riders, menu, issues, and store settings.</p>
+    <label class="field">
+      <span>Email</span>
+      <input id="loginEmail" type="email" autocomplete="email" placeholder="owner@example.com">
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter password">
+    </label>
+    <button id="loginBtn" class="primary-btn full" type="button">Login</button>
     <div id="loginHelp" class="login-help" hidden></div>
-  </form>
-</div>
+  </section>
+</main>
 
-<div id="dashboardShell" class="app-shell" hidden>
+<section id="dashboardShell" class="dashboard-shell" hidden>
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon">CF</div>
       <div>
-        <strong>Admin v1</strong>
-        <span id="connectionText">Connecting...</span>
+        <strong>Tiffin CBE</strong>
+        <span>Desktop Admin</span>
       </div>
     </div>
     <nav class="nav-list">
-      <button class="nav-item active" data-view="dashboard">Dashboard</button>
-      <button class="nav-item" data-view="orders">Live orders</button>
-      <button class="nav-item" data-view="attention">Needs attention</button>
-      <button class="nav-item" data-view="issues">Issues</button>
-      <button class="nav-item" data-view="menu">Menu</button>
-      <button class="nav-item" data-view="riders">Riders</button>
-      <button class="nav-item" data-view="reports">Reports</button>
-      <button class="nav-item" data-view="settings">Settings</button>
+      <button class="nav-item active" data-view="dashboard" type="button">Dashboard</button>
+      <button class="nav-item" data-view="orders" type="button">Live orders</button>
+      <button class="nav-item" data-view="issues" type="button">Issues</button>
+      <button class="nav-item" data-view="menu" type="button">Menu</button>
+      <button class="nav-item" data-view="riders" type="button">Riders</button>
+      <button class="nav-item" data-view="settings" type="button">Settings</button>
     </nav>
     <div class="sidebar-footer">
-      <button id="themeToggle" class="ghost-btn" type="button">Light theme</button>
-      <button id="notifyBtn" class="ghost-btn" type="button">Enable alerts</button>
+      <div id="connectionText" class="connection-text">Connecting...</div>
       <button id="logoutBtn" class="ghost-btn" type="button">Logout</button>
-      <small id="shortcutHint">/ Search · ⌘K Command · Esc Close</small>
     </div>
   </aside>
 
-  <main class="main-area">
+  <section class="main-area">
     <header class="topbar">
       <div>
-        <p class="eyebrow" id="storeSubtitle">Restaurant operations</p>
+        <p class="eyebrow">Operations</p>
         <h2 id="pageTitle">Dashboard</h2>
       </div>
       <div class="topbar-actions">
-        <div class="search-box"><span>⌕</span><input id="globalSearch" placeholder="Search order, phone, rider, item"></div>
-        <button id="commandBtn" class="ghost-btn" type="button">⌘K</button>
+        <label class="search-box">
+          <span>/</span>
+          <input id="globalSearch" type="search" placeholder="Search orders, phone, rider, address">
+        </label>
         <button id="kitchenStatusPill" class="status-toggle" type="button">Kitchen open</button>
-        <div class="admin-chip" id="adminName">Admin</div>
+        <button id="themeToggle" class="ghost-btn" type="button">Light</button>
+        <button id="notifyBtn" class="ghost-btn" type="button">Alerts</button>
+        <div id="adminName" class="admin-chip">Admin</div>
       </div>
     </header>
 
     <section id="view-dashboard" class="view active">
       <div id="metricGrid" class="metric-grid"></div>
       <div class="panel-grid">
-        <section class="panel wide">
+        <section class="panel">
           <div class="panel-head">
-            <div><h3>Live queue</h3><p>Active paid orders needing operational control.</p></div>
-            <button class="soft-btn" data-view="orders" type="button">Open board</button>
+            <div>
+              <h3>Needs attention</h3>
+              <p>Orders that need quick action.</p>
+            </div>
+            <button class="soft-btn" data-view="orders" type="button">Open orders</button>
+          </div>
+          <div id="attentionList" class="mini-order-list"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Live queue</h3>
+              <p>Latest active paid orders.</p>
+            </div>
           </div>
           <div id="dashboardLiveList" class="mini-order-list"></div>
         </section>
+      </div>
+      <div class="panel-grid bottom-grid">
         <section class="panel">
-          <div class="panel-head compact"><div><h3>Top items today</h3><p>Based on paid orders.</p></div></div>
+          <div class="panel-head compact">
+            <h3>Top items today</h3>
+          </div>
           <div id="topItemsList" class="top-items"></div>
         </section>
-      </div>
-      <div class="panel-grid second-row">
         <section class="panel">
-          <div class="panel-head compact"><div><h3>Daily closing summary</h3><p>Useful for end-of-day review.</p></div></div>
+          <div class="panel-head compact">
+            <h3>Daily closing summary</h3>
+          </div>
           <div id="closingSummary" class="summary-grid"></div>
-        </section>
-        <section class="panel">
-          <div class="panel-head compact"><div><h3>Delay prediction</h3><p>Orders that may become complaints.</p></div></div>
-          <div id="delayPredictionList" class="mini-order-list"></div>
         </section>
       </div>
     </section>
@@ -111,34 +123,33 @@
     <section id="view-orders" class="view">
       <div class="toolbar">
         <div id="orderFilters" class="filter-row">
-          <button class="filter active" data-filter="active">Active</button>
-          <button class="filter" data-filter="today">Today</button>
-          <button class="filter" data-filter="unassigned">Unassigned</button>
-          <button class="filter" data-filter="delayed">Delayed</button>
-          <button class="filter" data-filter="all">All paid</button>
+          <button class="filter active" data-filter="active" type="button">Active</button>
+          <button class="filter" data-filter="today" type="button">Today</button>
+          <button class="filter" data-filter="unassigned" type="button">Unassigned</button>
+          <button class="filter" data-filter="delayed" type="button">Delayed</button>
+          <button class="filter" data-filter="all" type="button">All</button>
         </div>
-        <div class="button-row">
-          <button id="printSelectedBtn" class="ghost-btn" type="button">Print selected slip</button>
-          <button id="exportOrdersBtn" class="soft-btn" type="button">Export CSV</button>
-        </div>
+        <button id="exportOrdersBtn" class="ghost-btn" type="button">Export CSV</button>
       </div>
       <div id="ordersBoard" class="orders-board"></div>
     </section>
 
-    <section id="view-attention" class="view">
-      <section class="panel full-height">
-        <div class="panel-head">
-          <div><h3>Smart needs-attention queue</h3><p>Auto-detected risk from SLA, rider, issue, refund, address and delivery distance.</p></div>
-          <button class="soft-btn" data-view="orders" type="button">Open board</button>
-        </div>
-        <div id="attentionList" class="attention-list"></div>
-      </section>
-    </section>
-
     <section id="view-issues" class="view">
       <section class="panel full-height">
-        <div class="panel-head"><div><h3>Issue management</h3><p>Open support cases, refunds and cancellation reasons.</p></div></div>
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>Order</th><th>Customer</th><th>Issue</th><th>Status</th><th>Actions</th></tr></thead><tbody id="issuesTable"></tbody></table></div>
+        <div class="panel-head">
+          <div>
+            <h3>Open issues</h3>
+            <p>Refunds, support notes, cancellations, delays, and unresolved problems.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Order</th><th>Customer</th><th>Issue</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody id="issuesTable"></tbody>
+          </table>
+        </div>
       </section>
     </section>
 
@@ -146,34 +157,46 @@
       <div class="two-pane">
         <section class="panel full-height">
           <div class="panel-head">
-            <div><h3>Menu management</h3><p>Availability, stock, time slots, price, category and nutrition.</p></div>
-            <div class="filter-row">
-              <button class="filter active" data-menu-filter="all">All</button>
-              <button class="filter" data-menu-filter="available">Available</button>
-              <button class="filter" data-menu-filter="soldout">Sold out</button>
+            <div>
+              <h3>Menu management</h3>
+              <p>Control availability, price, category, stock, bestseller, veg/non-veg, and timing.</p>
             </div>
           </div>
-          <div class="table-wrap"><table class="data-table"><thead><tr><th>Item</th><th>Category</th><th>Price</th><th>Stock</th><th>Time</th><th>Status</th><th></th></tr></thead><tbody id="menuTable"></tbody></table></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Item</th><th>Price</th><th>Category</th><th>Stock</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody id="menuTable"></tbody>
+            </table>
+          </div>
         </section>
         <form id="menuForm" class="panel editor-card">
           <h3 id="menuFormTitle">Add menu item</h3>
           <input id="menuDocId" type="hidden">
-          <label class="field">Name<input id="menuName" required></label>
-          <label class="field">Category<input id="menuCategory" placeholder="Protein Pack"></label>
-          <label class="field">Price<input id="menuPrice" type="number" min="0"></label>
-          <label class="field">Sort order<input id="menuSort" type="number" min="0"></label>
-          <label class="field">Stock count<input id="menuStock" type="number" min="0" placeholder="Leave empty for unlimited"></label>
-          <label class="field">Time slot<select id="menuTimeSlot"><option value="all_day">All day</option><option value="breakfast">Breakfast</option><option value="lunch">Lunch</option><option value="dinner">Dinner</option><option value="today_special">Today special</option></select></label>
+          <label class="field"><span>Name</span><input id="menuName" required></label>
+          <label class="field"><span>Price</span><input id="menuPrice" type="number" min="0" required></label>
+          <label class="field"><span>Category</span><input id="menuCategory" placeholder="regular / protein"></label>
+          <label class="field"><span>Description</span><textarea id="menuDescription" rows="3"></textarea></label>
+          <div class="split">
+            <label class="field"><span>Protein</span><input id="menuProtein"></label>
+            <label class="field"><span>Calories</span><input id="menuCalories" type="number" min="0"></label>
+          </div>
+          <div class="split">
+            <label class="field"><span>Stock</span><input id="menuStock" type="number" min="0"></label>
+            <label class="field"><span>Sort</span><input id="menuSort" type="number"></label>
+          </div>
           <div class="check-grid">
             <label><input id="menuAvailable" type="checkbox" checked> Available</label>
-            <label><input id="menuBestSeller" type="checkbox"> Best seller</label>
-            <label><input id="menuVegetarian" type="checkbox"> Veg</label>
-            <label><input id="menuHidden" type="checkbox"> Hidden</label>
+            <label><input id="menuBestseller" type="checkbox"> Bestseller</label>
+            <label><input id="menuVeg" type="checkbox"> Veg</label>
+            <label><input id="menuHidden" type="checkbox"> Hide from customer</label>
           </div>
-          <label class="field">Protein<input id="menuProtein" placeholder="35g"></label>
-          <label class="field">Calories<input id="menuCalories" placeholder="650 kcal"></label>
-          <label class="field">Description<textarea id="menuDescription" rows="3"></textarea></label>
-          <div class="button-row"><button class="primary-btn" type="submit">Save item</button><button id="resetMenuForm" class="ghost-btn" type="button">Reset</button></div>
+          <label class="field"><span>Available time</span><input id="menuAvailableTime" placeholder="Lunch / Dinner / 11 AM - 3 PM"></label>
+          <div class="button-row">
+            <button class="primary-btn" type="submit">Save item</button>
+            <button id="resetMenuForm" class="ghost-btn" type="button">Reset</button>
+          </div>
         </form>
       </div>
     </section>
@@ -181,87 +204,96 @@
     <section id="view-riders" class="view">
       <div class="two-pane">
         <section class="panel full-height">
-          <div class="panel-head"><div><h3>Rider management</h3><p>Availability, busy/offline state, live order assignment and verification.</p></div></div>
-          <div class="table-wrap"><table class="data-table"><thead><tr><th>Rider</th><th>Phone</th><th>Status</th><th>Current order</th><th>Last GPS</th><th></th></tr></thead><tbody id="ridersTable"></tbody></table></div>
+          <div class="panel-head">
+            <div>
+              <h3>Rider management</h3>
+              <p>Verify riders, track availability, and prevent wrong assignments.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Rider</th><th>Phone</th><th>Status</th><th>Current order</th><th>Last GPS</th><th></th></tr>
+              </thead>
+              <tbody id="riderTable"></tbody>
+            </table>
+          </div>
         </section>
         <form id="riderForm" class="panel editor-card">
           <h3 id="riderFormTitle">Add rider</h3>
           <input id="riderDocId" type="hidden">
-          <label class="field">Name<input id="riderName" required></label>
-          <label class="field">Phone<input id="riderPhone"></label>
-          <label class="field">Firebase Auth UID<input id="riderAuthUid" placeholder="Optional but recommended"></label>
-          <label class="field">Status<select id="riderStatus"><option value="available">Available</option><option value="offline">Offline</option><option value="inactive">Inactive</option></select></label>
-          <div class="check-grid"><label><input id="riderVerified" type="checkbox"> Verified</label><label><input id="riderActive" type="checkbox" checked> Active</label></div>
-          <div class="button-row"><button class="primary-btn" type="submit">Save rider</button><button id="resetRiderForm" class="ghost-btn" type="button">Reset</button></div>
-        </form>
-      </div>
-    </section>
-
-    <section id="view-reports" class="view">
-      <div class="panel-grid">
-        <section class="panel">
-          <div class="panel-head"><div><h3>Reports</h3><p>Export operational data without paid tools.</p></div></div>
-          <div class="stack">
-            <button id="exportTodayBtn" class="primary-btn" type="button">Export today orders CSV</button>
-            <button id="exportCancelledBtn" class="ghost-btn" type="button">Export cancelled/refund CSV</button>
-            <button id="exportTopItemsBtn" class="ghost-btn" type="button">Export top items CSV</button>
+          <label class="field"><span>Name</span><input id="riderName" required></label>
+          <label class="field"><span>Phone</span><input id="riderPhone" required></label>
+          <label class="field"><span>Firebase Auth UID</span><input id="riderAuthUid" placeholder="Optional until rider logs in"></label>
+          <label class="field"><span>Status</span>
+            <select id="riderStatus">
+              <option value="available">Available</option>
+              <option value="offline">Offline</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </label>
+          <div class="check-grid">
+            <label><input id="riderActive" type="checkbox" checked> Active</label>
+            <label><input id="riderVerified" type="checkbox"> Verified</label>
           </div>
-        </section>
-        <section class="panel">
-          <div class="panel-head compact"><div><h3>Customer lookup</h3><p>Find customer history by phone/order/payment.</p></div></div>
-          <div id="recoveryResults" class="mini-order-list"></div>
-        </section>
+          <div class="button-row">
+            <button class="primary-btn" type="submit">Save rider</button>
+            <button id="resetRiderForm" class="ghost-btn" type="button">Reset</button>
+          </div>
+        </form>
       </div>
     </section>
 
     <section id="view-settings" class="view">
-      <div class="two-pane">
-        <form id="settingsForm" class="panel settings-panel">
-          <div class="panel-head"><div><h3>Store settings</h3><p>Kitchen, ETA, delivery, support and service controls.</p></div></div>
-          <div class="settings-grid">
-            <label class="switch-card"><span><strong>Kitchen open</strong><small>Customer ordering availability</small></span><input id="setKitchenOpen" type="checkbox"></label>
-            <label class="switch-card"><span><strong>Pause new orders</strong><small>Temporary operational pause</small></span><input id="setPaused" type="checkbox"></label>
-            <label class="field">Preparation time<input id="setPrepTime" type="number" min="0" placeholder="25"></label>
-            <label class="field">Minimum order<input id="setMinOrder" type="number" min="0"></label>
-            <label class="field">Delivery fee<input id="setDeliveryFee" type="number" min="0"></label>
-            <label class="field">Service radius km<input id="setRadius" type="number" min="0" step="0.1"></label>
-            <label class="field">Support phone<input id="setSupportPhone"></label>
-            <label class="field">Cut-off time<input id="setCutoffTime" placeholder="15:00"></label>
-            <label class="field full">Closed/busy message<textarea id="setClosedMessage" rows="3"></textarea></label>
-            <label class="field full">Serviceable areas<textarea id="setAreas" rows="3" placeholder="Kalapatti, Peelamedu, Hope College"></textarea></label>
+      <form id="settingsForm" class="panel settings-panel">
+        <div class="panel-head">
+          <div>
+            <h3>Store settings</h3>
+            <p>Control kitchen status, ETA settings, delivery cost, support phone, and store details.</p>
           </div>
-          <button class="primary-btn" type="submit">Save settings</button>
-        </form>
-        <section class="panel editor-card">
-          <h3>Backup and recovery</h3>
-          <p class="muted">Find real paid orders and repair customer/store mirrors when support needs it.</p>
-          <label class="field">Order ID / phone / payment ID<input id="recoveryQuery" placeholder="CBE-..., 98765..., pay_..."></label>
-          <div class="button-row"><button id="findOrderBtn" class="primary-btn" type="button">Find</button><button id="repairMirrorBtn" class="ghost-btn" type="button">Repair selected mirror</button></div>
-          <div id="staffRolePanel" class="role-panel"></div>
-        </section>
-      </div>
+        </div>
+        <div class="settings-grid">
+          <label class="field"><span>Store name</span><input id="storeName"></label>
+          <label class="field"><span>Support phone</span><input id="supportPhone"></label>
+          <label class="field"><span>Preparation minutes</span><input id="preparationMinutes" type="number" min="0"></label>
+          <label class="field"><span>Delivery fee</span><input id="deliveryFee" type="number" min="0"></label>
+          <label class="field"><span>Minimum order</span><input id="minimumOrder" type="number" min="0"></label>
+          <label class="field"><span>Service radius km</span><input id="serviceRadiusKm" type="number" min="0" step="0.1"></label>
+          <label class="field full"><span>Closed / pause message</span><textarea id="closedMessage" rows="3"></textarea></label>
+          <label class="field full"><span>Service areas</span><textarea id="serviceAreas" rows="3" placeholder="Nehru Nagar, Kalapatti, Peelamedu"></textarea></label>
+          <div class="switch-card">
+            <div><strong>Kitchen open</strong><small>Customers can place orders when active.</small></div>
+            <input id="kitchenOpen" type="checkbox">
+          </div>
+          <div class="switch-card">
+            <div><strong>Pause new orders</strong><small>Useful during heavy kitchen load.</small></div>
+            <input id="kitchenPaused" type="checkbox">
+          </div>
+        </div>
+        <button class="primary-btn" type="submit">Save settings</button>
+      </form>
     </section>
-  </main>
+  </section>
+</section>
 
-  <aside id="detailDrawer" class="detail-drawer">
-    <div class="drawer-head">
-      <div><p class="eyebrow">Order details</p><h3 id="drawerTitle">Select an order</h3></div>
-      <button id="closeDrawer" class="icon-btn" type="button">×</button>
+<aside id="detailDrawer" class="detail-drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div>
+      <p class="eyebrow">Order details</p>
+      <h3 id="drawerTitle">Order</h3>
+      <span id="drawerSubtitle" class="muted"></span>
     </div>
-    <div id="drawerBody" class="drawer-body"></div>
-  </aside>
-
-  <div id="commandPalette" class="command-palette" hidden>
-    <div class="command-card">
-      <div class="command-head"><strong>Command palette</strong><button id="closeCommand" type="button">×</button></div>
-      <input id="commandSearch" placeholder="Search orders, riders, menu or pages">
-      <div id="commandResults" class="command-results"></div>
-    </div>
+    <button id="closeDrawer" class="icon-btn" type="button">×</button>
   </div>
+  <div id="drawerBody" class="drawer-body"></div>
+</aside>
 
-  <div id="toastStack" class="toast-stack"></div>
-</div>
+<div id="toastStack" class="toast-stack"></div>
 
-<script src="./admin.js"></script>
+<script src="./firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore-compat.js"></script>
+<script type="module" src="./admin.js"></script>
 </body>
 </html>
