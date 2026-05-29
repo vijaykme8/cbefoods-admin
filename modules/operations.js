@@ -4,7 +4,6 @@ import {toast} from './notifications.js';
 
 export async function updateOrder(id,patch,eventType='order_updated'){
   if(!id)return;
-  const order=state.orders.find(item=>orderId(item)===id)||{};
   const base={
     ...patch,
     updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
@@ -17,13 +16,7 @@ export async function updateOrder(id,patch,eventType='order_updated'){
     patch:Object.keys(patch)
   };
   base.timeline=firebase.firestore.FieldValue.arrayUnion(event);
-  const batch=state.db.batch();
-  batch.set(state.db.collection('orders').doc(id),base,{merge:true});
-  const storeId=clean(order.storeId||state.storeId)||'main';
-  batch.set(state.db.collection('stores').doc(storeId).collection('orders').doc(id),base,{merge:true});
-  const cid=customerId(order);
-  if(cid)batch.set(state.db.collection('customers').doc(cid).collection('orders').doc(id),base,{merge:true});
-  await batch.commit();
+  await state.db.collection('orders').doc(id).set(base,{merge:true});
   toast('Order updated',`#${shortId(id)}`);
 }
 
