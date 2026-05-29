@@ -143,3 +143,7 @@ textarea{resize:vertical}
 .timer-chip.red strong,.timer-text.red{color:#FF383C}
 .drawer-timer{margin-top:4px}
 .attention-row .timer-text{font-size:13px}
+
+.support-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.support-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.empty-state.compact{padding:14px;font-size:13px}

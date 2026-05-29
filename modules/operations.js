@@ -13,7 +13,9 @@ export async function updateOrder(id,patch,eventType='order_updated'){
     type:eventType,
     at:nowIso(),
     by:state.admin?.name||state.user?.email||'Admin',
-    patch:Object.keys(patch)
+    byUid:state.user?.uid||'admin',
+    patch:Object.keys(patch),
+    message:timelineMessage(eventType,patch)
   };
   base.timeline=firebase.firestore.FieldValue.arrayUnion(event);
   try{
@@ -26,17 +28,34 @@ export async function updateOrder(id,patch,eventType='order_updated'){
   }
 }
 
+function timelineMessage(type,patch={}){
+  const statusLabels={confirmed:'New',preparing:'Preparing',out_for_delivery:'On the way',delivered:'Delivered',cancelled:'Cancelled'};
+  if(type==='status_changed')return `Status changed to ${statusLabels[patch.status]||patch.status||'updated'}`;
+  if(type==='rider_assigned')return `Rider assigned: ${patch.assignedRiderName||'Rider'}`;
+  if(type==='rider_removed')return 'Rider removed';
+  if(type==='order_cancelled')return `Order cancelled${patch.cancelReason?`: ${patch.cancelReason}`:''}`;
+  if(type==='issue_added')return `Issue added: ${patch.issue?.type||'Issue'}`;
+  if(type==='issue_resolved')return 'Issue resolved';
+  if(type==='refund_requested')return 'Refund requested';
+  if(type==='refund_processed')return 'Refund marked processed manually';
+  if(type==='support_note_added')return 'Support note added';
+  if(type==='support_action_logged')return patch.supportActionLabel||'Support action logged';
+  return 'Order updated';
+}
+
 export async function cancelOrder(id){
   const reason=prompt('Cancel reason');
   if(reason===null)return;
   const note=clean(reason);
+  const issueEntry={type:'Order cancelled by restaurant',note,status:'open',at:nowIso(),by:state.admin?.name||state.user?.email||'Admin'};
   await updateOrder(id,{
     status:'cancelled',
     cancelReason:note,
     cancelledAt:nowIso(),
     issueStatus:'open',
     needsAttention:true,
-    issue:{type:'Order cancelled by restaurant',note,status:'open',updatedAt:nowIso()}
+    issue:{type:issueEntry.type,note:issueEntry.note,status:'open',updatedAt:issueEntry.at,by:issueEntry.by},
+    issueHistory:firebase.firestore.FieldValue.arrayUnion(issueEntry)
   },'order_cancelled');
 }
 
@@ -149,21 +168,48 @@ export async function addIssue(id){
   const type=clean(document.getElementById('issueType')?.value);
   const note=clean(document.getElementById('issueNote')?.value);
   if(!type)return toast('Select issue type');
+  const entry={type,note,status:'open',at:nowIso(),by:state.admin?.name||state.user?.email||'Admin'};
   await updateOrder(id,{
-    issue:{type,note,status:'open',updatedAt:nowIso(),by:state.admin?.name||state.user?.email||'Admin'},
+    issue:{type,note,status:'open',updatedAt:entry.at,by:entry.by},
     issueStatus:'open',
     needsAttention:true,
-    adminNotes:firebase.firestore.FieldValue.arrayUnion({type,note,at:nowIso(),by:state.admin?.name||state.user?.email||'Admin'})
+    issueHistory:firebase.firestore.FieldValue.arrayUnion(entry),
+    adminNotes:note?firebase.firestore.FieldValue.arrayUnion({type:'issue_note',note,at:entry.at,by:entry.by}):firebase.firestore.FieldValue.arrayUnion({type:'issue_added',note:type,at:entry.at,by:entry.by})
   },'issue_added');
 }
 
 export async function resolveIssue(id){
   const order=state.orders.find(item=>orderId(item)===id)||{};
+  const entry={type:order.issue?.type||'Issue',note:'Resolved',status:'resolved',at:nowIso(),by:state.admin?.name||state.user?.email||'Admin'};
   await updateOrder(id,{
-    issue:{...(order.issue||{}),status:'resolved',resolvedAt:nowIso()},
+    issue:{...(order.issue||{}),status:'resolved',resolvedAt:entry.at},
     issueStatus:'resolved',
-    needsAttention:false
+    needsAttention:false,
+    issueHistory:firebase.firestore.FieldValue.arrayUnion(entry)
   },'issue_resolved');
+}
+
+export async function addSupportNote(id){
+  const note=clean(document.getElementById('supportNote')?.value);
+  if(!note)return toast('Enter support note');
+  const entry={type:'support_note',note,at:nowIso(),by:state.admin?.name||state.user?.email||'Admin'};
+  await updateOrder(id,{
+    adminNotes:firebase.firestore.FieldValue.arrayUnion(entry),
+    supportLastNote:note,
+    supportLastUpdatedAt:entry.at
+  },'support_note_added');
+  const input=document.getElementById('supportNote');
+  if(input)input.value='';
+}
+
+export async function addSupportAction(id,action,label){
+  const entry={type:'support_action',action,label,at:nowIso(),by:state.admin?.name||state.user?.email||'Admin'};
+  await updateOrder(id,{
+    supportActions:firebase.firestore.FieldValue.arrayUnion(entry),
+    supportLastAction:label,
+    supportLastUpdatedAt:entry.at,
+    supportActionLabel:label
+  },'support_action_logged');
 }
 
 export async function toggleKitchen(){
