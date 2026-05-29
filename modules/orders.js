@@ -100,14 +100,19 @@ function renderDateStrip(){
   if(!wrap)return;
   const selected=state.selectedDateKey||dateKey(new Date());
   const center=selected?new Date(`${selected}T12:00:00`):new Date();
+  const monthLabel=$('dateMonthLabel');
+  if(monthLabel){
+    monthLabel.textContent=state.selectedDateKey
+      ? center.toLocaleDateString('en-IN',{month:'long',year:'numeric'})
+      : 'All dates';
+  }
   const days=dateStripDays(center,3,4);
   wrap.innerHTML=days.map(day=>{
     const active=day.key===state.selectedDateKey;
-    const count=state.orders.filter(order=>(order.paymentStatus==='paid'||order.adminVisible===true)&&dateKey(order.createdAt||order.paidAt||order.createdAtClient)===day.key).length;
     return `<button class="date-pill ${active?'active':''}" data-date-key="${escapeHtml(day.key)}" type="button">
       <span>${escapeHtml(day.day)}</span>
       <strong>${escapeHtml(day.date)}</strong>
-      ${count?`<em>${count}</em>`:''}
+      <small>${escapeHtml(day.month)}</small>
     </button>`;
   }).join('');
 }

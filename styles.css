@@ -218,8 +218,11 @@ body[data-theme="light"] .order-card:before{background:rgba(18,19,15,.10)}
 .date-pill:hover{transform:translateY(-1px);background:rgba(127,127,127,.09)}
 .date-pill span{font-size:13px;font-weight:500}
 .date-pill strong{width:42px;height:42px;border-radius:999px;background:var(--panel2);color:var(--text);display:grid;place-items:center;font-size:17px;font-weight:700;box-shadow:0 8px 18px rgba(0,0,0,.08)}
-.date-pill em{position:absolute;top:8px;right:8px;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#FF383C;color:#FDFDFF;font-size:11px;font-style:normal;font-weight:700;display:grid;place-items:center}
+
 .date-pill.active{background:var(--green);border-color:var(--green);color:#FDFDFF;box-shadow:0 14px 32px rgba(8,160,69,.18)}
 .date-pill.active strong{background:#FDFDFF;color:#12130F}
-.date-pill.active em{background:#12130F;color:#FDFDFF}
+
 body[data-theme="light"] .date-pill strong{background:#FFFFFF}
+
+.date-pill small{font-size:11px;font-weight:500;color:var(--muted);line-height:1}
+.date-pill.active small{color:rgba(253,253,255,.78)}
