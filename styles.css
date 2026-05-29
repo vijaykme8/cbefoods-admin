@@ -147,3 +147,9 @@ textarea{resize:vertical}
 .support-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .support-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
 .empty-state.compact{padding:14px;font-size:13px}
+
+.nav-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nav-badge,.inline-red-badge,.filter-badge{min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:#FF383C;color:#FDFDFF;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;line-height:1;box-shadow:0 6px 18px rgba(255,56,60,.28)}
+.inline-red-badge{vertical-align:middle;margin-left:8px}
+.filter-badge{height:20px;min-width:20px;font-size:11px;margin-left:6px}
+.nav-badge[hidden],.inline-red-badge[hidden],.filter-badge[hidden]{display:none!important}

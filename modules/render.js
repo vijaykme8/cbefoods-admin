@@ -6,7 +6,7 @@ import {renderMenu} from './menu.js';
 import {renderRiders} from './riders.js';
 import {renderSettings} from './settings.js';
 import {renderDrawer} from './drawer.js';
-import {$} from './utils.js';
+import {$,assignedRiderName,attentionReasons,isActiveStatus,isDelayed,isToday,statusOf} from './utils.js';
 
 export function renderAll(){
   renderDashboard();
@@ -16,6 +16,33 @@ export function renderAll(){
   renderRiders();
   renderSettings();
   renderDrawer();
+  renderUrgencyBadges();
+}
+
+function renderUrgencyBadges(){
+  const paid=state.orders.filter(order=>order.paymentStatus==='paid'||order.adminVisible===true);
+  const active=paid.filter(order=>isActiveStatus(statusOf(order)));
+  const today=paid.filter(order=>isToday(order.createdAt||order.paidAt));
+  const unassigned=active.filter(order=>!assignedRiderName(order)).length;
+  const delayed=active.filter(isDelayed).length;
+  const issues=paid.filter(order=>order.issueStatus==='open'||order.needsAttention===true||order.issue?.status==='open'||order.refundStatus==='requested').length;
+  const attention=active.filter(order=>attentionReasons(order).length).length;
+  setBadge('navOrdersBadge',attention||unassigned||delayed);
+  setBadge('navIssuesBadge',issues);
+  setBadge('attentionCountBadge',attention);
+  setBadge('filterActiveBadge',active.length);
+  setBadge('filterTodayBadge',today.length);
+  setBadge('filterUnassignedBadge',unassigned);
+  setBadge('filterDelayedBadge',delayed);
+  document.title=(attention||issues)?`(${attention+issues}) CBE Admin`:'Tiffin CBE Admin';
+}
+
+function setBadge(id,count){
+  const el=$(id);
+  if(!el)return;
+  const value=Number(count||0);
+  el.textContent=value>99?'99+':String(value);
+  el.hidden=value<=0;
 }
 
 export function showView(view){

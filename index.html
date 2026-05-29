@@ -51,8 +51,8 @@
     </div>
     <nav class="nav-list">
       <button class="nav-item active" data-view="dashboard" type="button">Dashboard</button>
-      <button class="nav-item" data-view="orders" type="button">Live orders</button>
-      <button class="nav-item" data-view="issues" type="button">Issues</button>
+      <button class="nav-item" data-view="orders" type="button"><span>Live orders</span><span id="navOrdersBadge" class="nav-badge" hidden>0</span></button>
+      <button class="nav-item" data-view="issues" type="button"><span>Issues</span><span id="navIssuesBadge" class="nav-badge" hidden>0</span></button>
       <button class="nav-item" data-view="menu" type="button">Menu</button>
       <button class="nav-item" data-view="riders" type="button">Riders</button>
       <button class="nav-item" data-view="settings" type="button">Settings</button>
@@ -87,7 +87,7 @@
         <section class="panel">
           <div class="panel-head">
             <div>
-              <h3>Needs attention</h3>
+              <h3>Needs attention <span id="attentionCountBadge" class="inline-red-badge" hidden>0</span></h3>
               <p>Orders that need quick action.</p>
             </div>
             <button class="soft-btn" data-view="orders" type="button">Open orders</button>
@@ -123,10 +123,10 @@
     <section id="view-orders" class="view">
       <div class="toolbar">
         <div id="orderFilters" class="filter-row">
-          <button class="filter active" data-filter="active" type="button">Active</button>
-          <button class="filter" data-filter="today" type="button">Today</button>
-          <button class="filter" data-filter="unassigned" type="button">Unassigned</button>
-          <button class="filter" data-filter="delayed" type="button">Delayed</button>
+          <button class="filter active" data-filter="active" type="button">Active <span id="filterActiveBadge" class="filter-badge" hidden>0</span></button>
+          <button class="filter" data-filter="today" type="button">Today <span id="filterTodayBadge" class="filter-badge" hidden>0</span></button>
+          <button class="filter" data-filter="unassigned" type="button">Unassigned <span id="filterUnassignedBadge" class="filter-badge" hidden>0</span></button>
+          <button class="filter" data-filter="delayed" type="button">Delayed <span id="filterDelayedBadge" class="filter-badge" hidden>0</span></button>
           <button class="filter" data-filter="all" type="button">All</button>
         </div>
         <button id="exportOrdersBtn" class="ghost-btn" type="button">Export CSV</button>
