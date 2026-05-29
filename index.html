@@ -23,7 +23,7 @@
       <div class="brand-icon">CF</div>
       <div>
         <p class="eyebrow">Coimbatore Foods</p>
-        <h1>Admin control room</h1>
+        <h1 class="display-title">Admin control room</h1>
       </div>
     </div>
     <p class="login-copy">Sign in with your approved admin email and password to manage live orders, riders, menu, issues, and store settings.</p>
@@ -45,21 +45,21 @@
     <div class="sidebar-brand">
       <div class="brand-icon">CF</div>
       <div>
-        <strong>Tiffin CBE</strong>
+        <strong class="brand-word">Tiffin CBE</strong>
         <span>Desktop Admin</span>
       </div>
     </div>
     <nav class="nav-list">
-      <button class="nav-item active" data-view="dashboard" type="button">Dashboard</button>
-      <button class="nav-item" data-view="orders" type="button"><span>Live orders</span><span id="navOrdersBadge" class="nav-badge" hidden>0</span></button>
-      <button class="nav-item" data-view="issues" type="button"><span>Issues</span><span id="navIssuesBadge" class="nav-badge" hidden>0</span></button>
-      <button class="nav-item" data-view="menu" type="button">Menu</button>
-      <button class="nav-item" data-view="riders" type="button">Riders</button>
-      <button class="nav-item" data-view="settings" type="button">Settings</button>
+      <button class="nav-item active" data-view="dashboard" type="button"><span class="nav-left"><span class="sample-icon">⌂</span><span>Dashboard</span></span></button>
+      <button class="nav-item" data-view="orders" type="button"><span class="nav-left"><span class="sample-icon">▦</span><span>Live orders</span></span><span id="navOrdersBadge" class="nav-badge" hidden>0</span></button>
+      <button class="nav-item" data-view="issues" type="button"><span class="nav-left"><span class="sample-icon">!</span><span>Issues</span></span><span id="navIssuesBadge" class="nav-badge" hidden>0</span></button>
+      <button class="nav-item" data-view="menu" type="button"><span class="nav-left"><span class="sample-icon">☰</span><span>Menu</span></span></button>
+      <button class="nav-item" data-view="riders" type="button"><span class="nav-left"><span class="sample-icon">↗</span><span>Riders</span></span></button>
+      <button class="nav-item" data-view="settings" type="button"><span class="nav-left"><span class="sample-icon">⚙</span><span>Settings</span></span></button>
     </nav>
     <div class="sidebar-footer">
       <div id="connectionText" class="connection-text">Connecting...</div>
-      <button id="logoutBtn" class="ghost-btn" type="button">Logout</button>
+      <button id="logoutBtn" class="ghost-btn icon-label" type="button"><span>↩</span><b>Logout</b></button>
     </div>
   </aside>
 
@@ -75,8 +75,8 @@
           <input id="globalSearch" type="search" placeholder="Search orders, phone, rider, address">
         </label>
         <button id="kitchenStatusPill" class="status-toggle" type="button">Kitchen open</button>
-        <button id="themeToggle" class="ghost-btn" type="button">Light</button>
-        <button id="notifyBtn" class="ghost-btn" type="button">Alerts</button>
+        <button id="themeToggle" class="ghost-btn icon-label" type="button"><span>◐</span><b>Light</b></button>
+        <button id="notifyBtn" class="ghost-btn icon-label" type="button"><span>●</span><b>Alerts</b></button>
         <div id="adminName" class="admin-chip">Admin</div>
       </div>
     </header>

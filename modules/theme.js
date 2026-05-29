@@ -15,5 +15,5 @@ export function applyTheme(theme){
   document.body.dataset.theme=value;
   localStorage.setItem('cbe_admin_theme',value);
   const btn=$('themeToggle');
-  if(btn)btn.textContent=value==='light'?'Dark':'Light';
+  if(btn)btn.innerHTML=`<span>◐</span><b>${value==='light'?'Dark':'Light'}</b>`;
 }
