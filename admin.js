@@ -72,6 +72,22 @@ function bindGlobal(){
   $('kitchenStatusPill').addEventListener('click',toggleKitchen);
   $('notifyBtn').addEventListener('click',requestNotifications);
   $('themeToggle').addEventListener('click',toggleTheme);
+  const sidebarToggle=$('sidebarToggle');
+  if(sidebarToggle){
+    const savedSidebar=localStorage.getItem('cbe_admin_sidebar_collapsed')==='1';
+    document.body.classList.toggle('sidebar-collapsed',savedSidebar);
+    sidebarToggle.setAttribute('aria-label',savedSidebar?'Expand sidebar':'Minimize sidebar');
+    sidebarToggle.title=savedSidebar?'Expand sidebar':'Minimize sidebar';
+    sidebarToggle.addEventListener('click',()=>{
+      const collapsed=!document.body.classList.contains('sidebar-collapsed');
+      document.body.classList.toggle('sidebar-collapsed',collapsed);
+      localStorage.setItem('cbe_admin_sidebar_collapsed',collapsed?'1':'0');
+      sidebarToggle.setAttribute('aria-label',collapsed?'Expand sidebar':'Minimize sidebar');
+      sidebarToggle.title=collapsed?'Expand sidebar':'Minimize sidebar';
+    });
+  }
+  const sidebarThemeShortcut=$('sidebarThemeShortcut');
+  if(sidebarThemeShortcut)sidebarThemeShortcut.addEventListener('click',toggleTheme);
   $('exportOrdersBtn').addEventListener('click',exportOrdersCsv);
   $('clearDateFilterBtn').addEventListener('click',()=>{state.selectedDateKey='';renderAll()});
 

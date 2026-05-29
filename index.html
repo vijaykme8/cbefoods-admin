@@ -42,24 +42,45 @@
 
 <section id="dashboardShell" class="dashboard-shell" hidden>
   <aside class="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon">CF</div>
-      <div>
-        <strong class="brand-word">Tiffin CBE</strong>
-        <span>Desktop Admin</span>
+    <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Minimize sidebar" title="Minimize sidebar">
+      <span>‹</span>
+    </button>
+    <div class="sidebar-window-dots" aria-hidden="true">
+      <i></i><i></i><i></i>
+    </div>
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar">CF</div>
+      <div class="sidebar-profile-copy">
+        <span>Good day 👋</span>
+        <strong>Admin</strong>
       </div>
     </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Menu: 6</div>
     <nav class="nav-list">
-      <button class="nav-item active" data-view="dashboard" type="button"><span class="nav-left"><span class="sample-icon">⌂</span><span>Dashboard</span></span></button>
-      <button class="nav-item" data-view="orders" type="button"><span class="nav-left"><span class="sample-icon">▦</span><span>Live orders</span></span><span id="navOrdersBadge" class="nav-badge" hidden>0</span></button>
-      <button class="nav-item" data-view="issues" type="button"><span class="nav-left"><span class="sample-icon">!</span><span>Issues</span></span><span id="navIssuesBadge" class="nav-badge" hidden>0</span></button>
+      <button class="nav-item active" data-view="dashboard" type="button"><span class="nav-left"><span class="sample-icon">▦</span><span>Dashboard</span></span></button>
+      <button class="nav-item" data-view="orders" type="button"><span class="nav-left"><span class="sample-icon">▣</span><span>Live orders</span></span><span id="navOrdersBadge" class="nav-badge" hidden>0</span></button>
+      <button class="nav-item" data-view="issues" type="button"><span class="nav-left"><span class="sample-icon">●</span><span>Issues</span></span><span id="navIssuesBadge" class="nav-badge" hidden>0</span></button>
       <button class="nav-item" data-view="menu" type="button"><span class="nav-left"><span class="sample-icon">☰</span><span>Menu</span></span></button>
       <button class="nav-item" data-view="riders" type="button"><span class="nav-left"><span class="sample-icon">↗</span><span>Riders</span></span></button>
       <button class="nav-item" data-view="settings" type="button"><span class="nav-left"><span class="sample-icon">⚙</span><span>Settings</span></span></button>
     </nav>
+    <div class="sidebar-plugin-block">
+      <div class="sidebar-section-label">Service: 3</div>
+      <div class="sidebar-service-card">
+        <div><span class="service-dot blue"></span><span>Kitchen</span></div>
+        <div><span class="service-dot green"></span><span>Riders</span></div>
+        <div><span class="service-dot orange"></span><span>Support</span></div>
+      </div>
+    </div>
     <div class="sidebar-footer">
+      <div class="sidebar-section-label">Settings: 2</div>
+      <div class="sidebar-mini-dock">
+        <button class="dock-icon" data-view="settings" type="button">⚙</button>
+        <button id="sidebarThemeShortcut" class="dock-icon" type="button">◐</button>
+        <button id="logoutBtn" class="dock-icon" type="button">↩</button>
+      </div>
       <div id="connectionText" class="connection-text">Connecting...</div>
-      <button id="logoutBtn" class="ghost-btn icon-label" type="button"><span>↩</span><b>Logout</b></button>
     </div>
   </aside>
 
