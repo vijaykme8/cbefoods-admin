@@ -1,4 +1,4 @@
-const CACHE='cbe-admin-reference-only-ui';
+const CACHE='cbe-admin-calendar-reference-ui';
 const ASSETS=['./','./index.html','./styles.css','./admin.js','./manifest.webmanifest','./icons/admin-icon.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
