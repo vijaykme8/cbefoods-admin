@@ -9,6 +9,7 @@ export function bootRealtime(){
   listenRiders();
   listenSettings();
   renderAll();
+  startTimerRefresh();
 }
 
 function listenOrders(){
@@ -52,4 +53,12 @@ function listenSettings(){
     renderAll();
   },error=>toast('Settings sync failed',error.message||''));
   state.unsubs.push(unsub);
+}
+
+
+let timerRefreshId=null;
+
+export function startTimerRefresh(){
+  if(timerRefreshId)return;
+  timerRefreshId=setInterval(()=>renderAll(),60000);
 }

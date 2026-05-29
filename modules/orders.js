@@ -1,5 +1,5 @@
 import {state} from './state.js';
-import {$,assignedRiderName,attentionReasons,customerName,customerPhone,deliveryAddress,escapeHtml,formatTime,isActiveStatus,isDelayed,isToday,itemCount,money,orderId,orderTotal,shortId,statusLabel,statusOf} from './utils.js';
+import {$,assignedRiderName,attentionReasons,customerName,customerPhone,deliveryAddress,escapeHtml,formatTime,isActiveStatus,isDelayed,isToday,itemCount,money,orderId,orderTotal,shortId,slaInfo,statusLabel,statusOf} from './utils.js';
 
 const columns=[
   {key:'confirmed',label:'New'},
@@ -44,10 +44,15 @@ function orderCard(order){
   const status=statusOf(order);
   const rider=assignedRiderName(order);
   const reasons=attentionReasons(order);
+  const sla=slaInfo(order);
   return `<article class="order-card ${reasons.length?'danger-zone':''}">
     <div class="order-top">
       <div><div class="order-id">#${shortId(id)}</div><div class="muted">${escapeHtml(formatTime(order.createdAt||order.paidAt))}</div></div>
       <div class="price">${money(orderTotal(order))}</div>
+    </div>
+    <div class="sla-chip ${escapeHtml(sla.level)}">
+      <strong>${escapeHtml(sla.label)}</strong>
+      <span>${escapeHtml(sla.detail)}</span>
     </div>
     <div class="badge-row">
       <span class="badge ${statusClass(status)}">${escapeHtml(statusLabel(status))}</span>

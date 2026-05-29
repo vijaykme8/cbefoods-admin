@@ -149,3 +149,69 @@ export function downloadText(filename,content,type='text/plain'){
   a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
+
+
+export function activeStageStartedAt(order){
+  const timeline=Array.isArray(order?.timeline)?order.timeline:[];
+  const status=statusOf(order);
+  const wanted={
+    confirmed:['payment_finalized','order_created','order_confirmed','status_changed'],
+    preparing:['status_changed','preparing_started'],
+    out_for_delivery:['status_changed','rider_assigned','picked_up','out_for_delivery'],
+    delivered:['status_changed','delivered']
+  }[status]||[];
+  for(let i=timeline.length-1;i>=0;i--){
+    const row=timeline[i]||{};
+    const patch=Array.isArray(row.patch)?row.patch:[];
+    const type=clean(row.type);
+    const changedStatus=patch.includes('status')||patch.includes('orderStatus')||patch.includes('adminStatus');
+    if(wanted.includes(type)||changedStatus)return row.at||row.createdAt||order.updatedAt||order.createdAt||order.paidAt;
+  }
+  return order.updatedAt||order.createdAt||order.createdAtClient||order.paidAt;
+}
+
+export function stageAgeMinutes(order){
+  const start=toDate(activeStageStartedAt(order));
+  if(start.getTime()<=0)return orderAgeMinutes(order);
+  return Math.max(0,(Date.now()-start.getTime())/60000);
+}
+
+export function formatMinutesLabel(minutes){
+  const value=Math.max(0,Math.floor(Number(minutes)||0));
+  if(value<60)return `${value} min`;
+  const h=Math.floor(value/60);
+  const m=value%60;
+  return m?`${h}h ${m}m`:`${h}h`;
+}
+
+export function slaInfo(order){
+  const status=statusOf(order);
+  const age=orderAgeMinutes(order);
+  const stageAge=stageAgeMinutes(order);
+  const reasons=attentionReasons(order);
+  let label=`Paid ${formatMinutesLabel(age)} ago`;
+  let level='green';
+  let detail='On time';
+  if(status==='preparing'){
+    label=`Preparing ${formatMinutesLabel(stageAge)}`;
+    if(stageAge>=30){level='red';detail='Kitchen delayed'}
+    else if(stageAge>=20){level='amber';detail='Kitchen warning'}
+  }else if(status==='out_for_delivery'){
+    label=`On the way ${formatMinutesLabel(stageAge)}`;
+    if(stageAge>=60){level='red';detail='Delivery delayed'}
+    else if(stageAge>=40){level='amber';detail='Delivery warning'}
+  }else if(status==='confirmed'){
+    label=`New ${formatMinutesLabel(age)}`;
+    if(age>=15){level='red';detail='Not accepted'}
+    else if(age>=8){level='amber';detail='Accept soon'}
+  }
+  if(isActiveStatus(status)&&!assignedRiderName(order)&&age>=10){
+    level=level==='red'?'red':'amber';
+    detail='Rider needed';
+  }
+  if(reasons.length){
+    if(reasons.includes('Delayed')||reasons.includes('Open issue')||reasons.includes('Refund requested'))level='red';
+    detail=reasons[0];
+  }
+  return {label,level,detail,ageMinutes:age,stageAgeMinutes:stageAge,reasons};
+}
