@@ -1,5 +1,5 @@
 import {state} from './state.js';
-import {clean,customerId,e164,nowIso,orderId,phone10,shortId} from './utils.js';
+import {clean,e164,nowIso,orderId,phone10,shortId} from './utils.js';
 import {toast} from './notifications.js';
 
 export async function updateOrder(id,patch,eventType='order_updated'){
@@ -16,8 +16,14 @@ export async function updateOrder(id,patch,eventType='order_updated'){
     patch:Object.keys(patch)
   };
   base.timeline=firebase.firestore.FieldValue.arrayUnion(event);
-  await state.db.collection('orders').doc(id).set(base,{merge:true});
-  toast('Order updated',`#${shortId(id)}`);
+  try{
+    await state.db.collection('orders').doc(id).set(base,{merge:true});
+    toast('Order updated',`#${shortId(id)}`);
+  }catch(error){
+    console.error('Admin order update failed',error);
+    toast('Order update failed',error.message||'Check Firestore rules');
+    throw error;
+  }
 }
 
 export async function cancelOrder(id){
