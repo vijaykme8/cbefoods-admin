@@ -1,17 +1,16 @@
 {
-  "name": "Tiffin CBE Admin",
-  "short_name": "Admin",
+  "name": "Coimbatore Foods Admin",
+  "short_name": "CBE Admin",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0D0E0B",
-  "theme_color": "#12130F",
-  "orientation": "landscape-primary",
+  "theme_color": "#8806CE",
   "icons": [
     {
-      "src": "icons/admin-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "./icons/admin-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
     }
   ]
 }
