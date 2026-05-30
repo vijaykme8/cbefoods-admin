@@ -165,7 +165,7 @@ textarea{resize:vertical}
 .brand-word{font-weight:700}
 .login-card h1,.topbar h2{letter-spacing:-.035em}
 .login-card h1{font-weight:700}
-.topbar h2{font-weight:650}
+.topbar h2{font-weight:600}
 .panel-head h3,.drawer-section h4{font-weight:600;letter-spacing:-.015em}
 .field span,.data-table th,.eyebrow{font-weight:600}
 .metric-card strong{font-weight:700;letter-spacing:-.04em}
@@ -1049,7 +1049,7 @@ body[data-theme="dark"] .sidebar .nav-item:hover{
   height:24px;
   border-radius:999px;
   font-size:11px;
-  font-weight:800;
+  font-weight:700;
   box-shadow:0 10px 20px rgba(239,68,68,.22);
 }
 
@@ -1447,7 +1447,7 @@ body.sidebar-collapsed .dashboard-shell{
 
 .kitchen-toggle b{
   font-size:13px;
-  font-weight:800;
+  font-weight:700;
   white-space:nowrap;
 }
 
@@ -1534,7 +1534,7 @@ body.sidebar-collapsed .dashboard-shell{
 .menu-editor-head h3{
   margin:0;
   font-size:22px;
-  font-weight:800;
+  font-weight:700;
   letter-spacing:-0.04em;
 }
 
@@ -1565,4 +1565,199 @@ body.sidebar-collapsed .dashboard-shell{
   .sidebar{
     margin:16px 0 16px 16px!important;
   }
+}
+
+/* UI cleanup radius type badge kitchen */
+:root{
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:14px;
+}
+
+body,
+button,
+input,
+textarea,
+select{
+  font-weight:400;
+}
+
+h1,h2,h3,h4,
+.brand-word,
+.metric-card strong,
+.price,
+.order-id,
+.drawer-head h3{
+  font-weight:700!important;
+}
+
+.nav-item,
+.filter,
+.small-btn,
+.ghost-btn,
+.status-toggle b,
+.admin-chip,
+.field span,
+.data-table th,
+.badge,
+.date-day,
+.panel-head h3,
+.date-view-head h3,
+.drawer-section h4{
+  font-weight:600!important;
+}
+
+.panel-head p,
+.date-view-head p,
+.order-meta,
+.muted,
+.connection-text,
+.metric-card small,
+.sidebar-profile-copy span{
+  font-weight:400!important;
+}
+
+.sidebar-profile-copy strong,
+.order-card h4,
+.customer-line,
+.metric-card span,
+.sidebar-section-label{
+  font-weight:500!important;
+}
+
+button,
+input,
+textarea,
+select,
+.search-box,
+.ghost-btn,
+.status-toggle,
+.admin-chip,
+.primary-btn,
+.soft-btn,
+.small-btn,
+.filter,
+.badge,
+.count-pill,
+.nav-badge,
+.filter-badge,
+.inline-red-badge,
+.date-pill em,
+.dock-icon,
+.icon-btn{
+  border-radius:var(--radius-sm)!important;
+}
+
+.sidebar,
+.main-area,
+.panel,
+.metric-card,
+.date-view-panel,
+.order-column,
+.order-card,
+.detail-drawer,
+.drawer-section,
+.login-card,
+.menu-editor-drawer,
+.menu-editor-panel,
+.table-wrap,
+.editor-card,
+.settings-panel,
+.sidebar-service-card,
+.sidebar-mini-dock,
+.sidebar-profile,
+.sidebar-avatar,
+.brand-icon{
+  border-radius:var(--radius-lg)!important;
+}
+
+.date-pill,
+.date-core,
+.mini-row,
+.timeline-row,
+.data-table tr td:first-child,
+.data-table tr td:last-child,
+.check-grid label,
+.switch-card,
+.menu-editor-head .icon-btn,
+.sidebar-toggle,
+.toggle-track,
+.toggle-track i,
+.service-dot,
+.profile-avatar{
+  border-radius:var(--radius-md)!important;
+}
+
+.sidebar{
+  border-top-left-radius:0!important;
+  border-bottom-left-radius:0!important;
+}
+
+.detail-drawer{
+  border-top-right-radius:0!important;
+  border-bottom-right-radius:0!important;
+}
+
+.nav-item.active,
+.filter.active,
+.date-pill.active{
+  border-radius:var(--radius-md)!important;
+}
+
+.kitchen-toggle{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+  min-height:auto!important;
+  height:auto!important;
+  border-radius:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+
+.kitchen-toggle:hover{
+  background:transparent!important;
+}
+
+.kitchen-toggle b{
+  font-weight:500!important;
+  color:var(--text);
+}
+
+.kitchen-toggle.on b{
+  color:#16A34A;
+}
+
+.kitchen-toggle.closed b{
+  color:#DC2626;
+}
+
+.kitchen-toggle.paused b{
+  color:#B7791F;
+}
+
+.kitchen-toggle .toggle-track{
+  width:36px;
+  height:20px;
+  padding:2px;
+}
+
+.kitchen-toggle .toggle-track i{
+  width:16px;
+  height:16px;
+}
+
+.kitchen-toggle.on .toggle-track i{
+  transform:translateX(16px);
+}
+
+#navOrdersBadge,
+#attentionCountBadge,
+#filterActiveBadge,
+#filterTodayBadge,
+#filterUnassignedBadge,
+#filterDelayedBadge{
+  display:none!important;
 }

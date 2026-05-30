@@ -1,4 +1,4 @@
-const CACHE='cbe-admin-requested-ui-changes';
+const CACHE='cbe-admin-ui-cleanup';
 const ASSETS=['./','./index.html','./styles.css','./admin.js','./manifest.webmanifest','./icons/admin-icon.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));

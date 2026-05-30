@@ -24,19 +24,16 @@ function renderUrgencyBadges(){
   if(state.selectedDateKey)paid=paid.filter(order=>dateKey(order.createdAt||order.paidAt||order.createdAtClient)===state.selectedDateKey);
   const active=paid.filter(order=>isActiveStatus(statusOf(order)));
   const today=paid.filter(order=>isToday(order.createdAt||order.paidAt));
-  const unassigned=active.filter(order=>!assignedRiderName(order)).length;
-  const delayed=active.filter(isDelayed).length;
-  const issues=paid.filter(order=>order.issueStatus==='open'||order.needsAttention===true||order.issue?.status==='open'||order.refundStatus==='requested').length;
-  const attention=active.filter(order=>attentionReasons(order).length).length;
-  setBadge('navOrdersBadge',attention||unassigned||delayed);
+  const issues=paid.filter(order=>order.issueStatus==='open'||order.issue?.status==='open'||order.refundStatus==='requested').length;
+  setBadge('navOrdersBadge',0);
   setBadge('navIssuesBadge',issues);
-  setBadge('attentionCountBadge',attention);
-  setBadge('filterActiveBadge',active.length);
-  setBadge('filterTodayBadge',today.length);
-  setBadge('filterUnassignedBadge',unassigned);
-  setBadge('filterDelayedBadge',delayed);
+  setBadge('attentionCountBadge',0);
+  setBadge('filterActiveBadge',0);
+  setBadge('filterTodayBadge',0);
+  setBadge('filterUnassignedBadge',0);
+  setBadge('filterDelayedBadge',0);
   updateTodayFilterLabel();
-  document.title=(attention||issues)?`(${attention+issues}) CBE Admin`:'Tiffin CBE Admin';
+  document.title=issues?`(${issues}) CBE Admin`:'Tiffin CBE Admin';
 }
 
 function setBadge(id,count){
