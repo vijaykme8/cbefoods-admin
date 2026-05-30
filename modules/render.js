@@ -6,7 +6,7 @@ import {renderMenu} from './menu.js';
 import {renderRiders} from './riders.js';
 import {renderSettings} from './settings.js';
 import {renderDrawer} from './drawer.js';
-import {$,assignedRiderName,attentionReasons,dateKey,isActiveStatus,isDelayed,isToday,statusOf} from './utils.js';
+import {$,assignedRiderName,attentionReasons,dateKey,isActiveStatus,isDelayed,isToday,statusOf,todayDateKey} from './utils.js';
 
 export function renderAll(){
   renderDashboard();
@@ -35,6 +35,7 @@ function renderUrgencyBadges(){
   setBadge('filterTodayBadge',today.length);
   setBadge('filterUnassignedBadge',unassigned);
   setBadge('filterDelayedBadge',delayed);
+  updateTodayFilterLabel();
   document.title=(attention||issues)?`(${attention+issues}) CBE Admin`:'Tiffin CBE Admin';
 }
 
@@ -55,4 +56,16 @@ export function showView(view){
   document.querySelectorAll('.nav-item').forEach(item=>item.classList.toggle('active',item.dataset.view===view));
   $('pageTitle').textContent={dashboard:'Dashboard',orders:'Live orders',issues:'Issues',menu:'Menu',riders:'Riders',settings:'Store settings'}[view]||'Dashboard';
   renderAll();
+}
+
+
+function updateTodayFilterLabel(){
+  const label=$('filterTodayLabel');
+  if(!label)return;
+  if(!state.selectedDateKey||state.selectedDateKey===todayDateKey()){
+    label.textContent='Today';
+    return;
+  }
+  const date=new Date(`${state.selectedDateKey}T12:00:00`);
+  label.textContent=date.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
 }

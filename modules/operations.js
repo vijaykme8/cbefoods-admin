@@ -106,6 +106,8 @@ export async function saveMenuItem(event){
   await state.db.collection('menuItems').doc(docId).set(data,{merge:true});
   toast('Menu item saved',data.name);
   resetMenuForm();
+  const drawer=document.getElementById('menuEditorDrawer');
+  if(drawer){drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
 }
 
 export function resetMenuForm(){

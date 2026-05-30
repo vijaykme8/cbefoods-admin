@@ -1,7 +1,7 @@
 import {initFirebase} from './modules/firebase.js';
 import {setupAuth,login} from './modules/auth.js';
 import {state} from './modules/state.js';
-import {$,deliveryAddress,orderId} from './modules/utils.js';
+import {$,deliveryAddress,orderId,todayDateKey} from './modules/utils.js';
 import {showView,renderAll} from './modules/render.js';
 import {openDrawer,closeDrawer} from './modules/drawer.js';
 import {updateOrder,cancelOrder,saveMenuItem,resetMenuForm,saveRider,resetRiderForm,saveSettings,toggleKitchen} from './modules/operations.js';
@@ -30,7 +30,7 @@ function bindGlobal(){
     if(assign)openDrawer(assign.dataset.assignQuick);
 
     const editMenuBtn=event.target.closest('[data-edit-menu]');
-    if(editMenuBtn)editMenu(editMenuBtn.dataset.editMenu);
+    if(editMenuBtn){editMenu(editMenuBtn.dataset.editMenu);openMenuEditor();}
 
     const editRiderBtn=event.target.closest('[data-edit-rider]');
     if(editRiderBtn)editRider(editRiderBtn.dataset.editRider);
@@ -66,12 +66,17 @@ function bindGlobal(){
   });
   $('menuForm').addEventListener('submit',saveMenuItem);
   $('resetMenuForm').addEventListener('click',resetMenuForm);
+  const openMenuFormBtn=$('openMenuFormBtn');
+  if(openMenuFormBtn)openMenuFormBtn.addEventListener('click',()=>{resetMenuForm();openMenuEditor();});
+  const closeMenuEditorBtn=$('closeMenuEditor');
+  if(closeMenuEditorBtn)closeMenuEditorBtn.addEventListener('click',closeMenuEditor);
   $('riderForm').addEventListener('submit',saveRider);
   $('resetRiderForm').addEventListener('click',resetRiderForm);
   $('settingsForm').addEventListener('submit',saveSettings);
   $('kitchenStatusPill').addEventListener('click',toggleKitchen);
   $('notifyBtn').addEventListener('click',requestNotifications);
-  $('themeToggle').addEventListener('click',toggleTheme);
+  const themeToggle=$('themeToggle');
+  if(themeToggle)themeToggle.addEventListener('click',toggleTheme);
   const sidebarToggle=$('sidebarToggle');
   if(sidebarToggle){
     const savedSidebar=localStorage.getItem('cbe_admin_sidebar_collapsed')==='1';
@@ -90,9 +95,11 @@ function bindGlobal(){
   if(sidebarThemeShortcut)sidebarThemeShortcut.addEventListener('click',toggleTheme);
   $('exportOrdersBtn').addEventListener('click',exportOrdersCsv);
   $('clearDateFilterBtn').addEventListener('click',()=>{state.selectedDateKey='';renderAll()});
+  const todayDateBtn=$('todayDateBtn');
+  if(todayDateBtn)todayDateBtn.addEventListener('click',()=>{state.selectedDateKey=todayDateKey();renderAll()});
 
   document.addEventListener('keydown',event=>{
-    if(event.key==='Escape')closeDrawer();
+    if(event.key==='Escape'){closeDrawer();closeMenuEditor();}
     if(event.key==='/'&&document.activeElement!==$('globalSearch')){
       event.preventDefault();
       $('globalSearch').focus();
@@ -109,6 +116,20 @@ function bindGlobal(){
       if(key==='d'){state.filter='delayed';showView('orders')}
     }
   });
+}
+
+function openMenuEditor(){
+  const drawer=$('menuEditorDrawer');
+  if(!drawer)return;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+}
+
+function closeMenuEditor(){
+  const drawer=$('menuEditorDrawer');
+  if(!drawer)return;
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
 }
 
 function registerServiceWorker(){

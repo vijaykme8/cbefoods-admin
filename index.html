@@ -95,8 +95,7 @@
           <span>/</span>
           <input id="globalSearch" type="search" placeholder="Search orders, phone, rider, address">
         </label>
-        <button id="kitchenStatusPill" class="status-toggle" type="button">Kitchen open</button>
-        <button id="themeToggle" class="ghost-btn icon-label" type="button"><span>◐</span><b>Light</b></button>
+        <button id="kitchenStatusPill" class="status-toggle kitchen-toggle" type="button">Kitchen open</button>
         <button id="notifyBtn" class="ghost-btn icon-label" type="button"><span>●</span><b>Alerts</b></button>
         <div id="adminName" class="admin-chip">Admin</div>
       </div>
@@ -148,14 +147,14 @@
             <h3>Order calendar</h3>
             <p><span id="dateMonthLabel">This month</span> · Switch days without leaving the board.</p>
           </div>
-          <button id="clearDateFilterBtn" class="ghost-btn" type="button">All dates</button>
+          <div class="date-actions"><button id="todayDateBtn" class="ghost-btn" type="button">Today</button><button id="clearDateFilterBtn" class="ghost-btn" type="button">All dates</button></div>
         </div>
         <div id="orderDateStrip" class="date-strip"></div>
       </div>
       <div class="toolbar">
         <div id="orderFilters" class="filter-row">
           <button class="filter active" data-filter="active" type="button">Active <span id="filterActiveBadge" class="filter-badge" hidden>0</span></button>
-          <button class="filter" data-filter="today" type="button">Today <span id="filterTodayBadge" class="filter-badge" hidden>0</span></button>
+          <button class="filter" data-filter="today" type="button"><span id="filterTodayLabel">Today</span> <span id="filterTodayBadge" class="filter-badge" hidden>0</span></button>
           <button class="filter" data-filter="unassigned" type="button">Unassigned <span id="filterUnassignedBadge" class="filter-badge" hidden>0</span></button>
           <button class="filter" data-filter="delayed" type="button">Delayed <span id="filterDelayedBadge" class="filter-badge" hidden>0</span></button>
           <button class="filter" data-filter="all" type="button">All</button>
@@ -185,25 +184,28 @@
     </section>
 
     <section id="view-menu" class="view">
-      <div class="two-pane">
-        <section class="panel full-height">
-          <div class="panel-head">
-            <div>
-              <h3>Menu management</h3>
-              <p>Control availability, price, category, stock, bestseller, veg/non-veg, and timing.</p>
-            </div>
+      <section class="panel full-height menu-management-panel">
+        <div class="panel-head">
+          <div>
+            <h3>Menu management</h3>
+            <p>Control availability, price, category, stock, bestseller, veg/non-veg, and timing.</p>
           </div>
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr><th>Item</th><th>Price</th><th>Category</th><th>Stock</th><th>Status</th><th></th></tr>
-              </thead>
-              <tbody id="menuTable"></tbody>
-            </table>
-          </div>
-        </section>
-        <form id="menuForm" class="panel editor-card">
-          <h3 id="menuFormTitle">Add menu item</h3>
+          <button id="openMenuFormBtn" class="primary-btn" type="button">Add menu item</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Item</th><th>Price</th><th>Category</th><th>Stock</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody id="menuTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <aside id="menuEditorDrawer" class="menu-editor-drawer" aria-hidden="true">
+      <form id="menuForm" class="menu-editor-panel">
+          <div class="menu-editor-head"><div><h3 id="menuFormTitle">Add menu item</h3><p>Create or update menu item details.</p></div><button id="closeMenuEditor" class="icon-btn" type="button">×</button></div>
           <input id="menuDocId" type="hidden">
           <label class="field"><span>Name</span><input id="menuName" required></label>
           <label class="field"><span>Price</span><input id="menuPrice" type="number" min="0" required></label>
@@ -229,8 +231,7 @@
             <button id="resetMenuForm" class="ghost-btn" type="button">Reset</button>
           </div>
         </form>
-      </div>
-    </section>
+    </aside>
 
     <section id="view-riders" class="view">
       <div class="two-pane">

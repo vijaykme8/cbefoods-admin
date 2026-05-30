@@ -18,14 +18,15 @@ export function renderSettings(){
 export function renderKitchenPill(){
   const pill=$('kitchenStatusPill');
   if(!pill)return;
-  pill.classList.remove('closed','paused');
+  pill.classList.remove('closed','paused','on');
   if(state.settings.kitchenOpen===false){
-    pill.textContent='Kitchen closed';
+    pill.innerHTML='<span class="toggle-track"><i></i></span><b>Kitchen off</b>';
     pill.classList.add('closed');
   }else if(state.settings.kitchenPaused){
-    pill.textContent='Orders paused';
+    pill.innerHTML='<span class="toggle-track"><i></i></span><b>Orders paused</b>';
     pill.classList.add('paused');
   }else{
-    pill.textContent='Kitchen open';
+    pill.innerHTML='<span class="toggle-track"><i></i></span><b>Kitchen on</b>';
+    pill.classList.add('on');
   }
 }
