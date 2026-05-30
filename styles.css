@@ -1862,3 +1862,24 @@ body.sidebar-collapsed .sidebar{
 .kitchen-toggle{
   border-radius:0!important;
 }
+
+/* all admin feature foundation UI */
+.analytics-list{display:flex;flex-direction:column;gap:8px}
+.analytics-row{display:grid;grid-template-columns:76px 1fr 38px;align-items:center;gap:10px;padding:10px 12px;background:var(--panel2);border-radius:12px}
+.analytics-row b{height:8px;border-radius:999px;background:linear-gradient(90deg,#111318,#3B82F6);width:var(--bar);display:block;min-width:4px}
+.stock-control{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);padding:4px;border-radius:12px}
+.mini-icon-btn{width:28px;height:28px;border-radius:8px;background:var(--panel);font-weight:700;color:var(--text)}
+.table-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.recommend-card{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;background:var(--panel2);padding:12px;border-radius:16px;margin-top:10px}
+.recommend-card strong{grid-column:1/-1}
+.recommend-card span{color:var(--muted);font-size:13px}
+.extended-settings-grid{grid-template-columns:repeat(3,minmax(180px,1fr))}
+.extended-settings-grid .full{grid-column:1/-1}
+.drawer-actions .field{min-width:160px}
+.support-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.badge.priority,.badge.purple{background:#EAF2FF;color:#2563EB}
+.badge.amber,.small-btn.amber{background:#FFF6DF;color:#B7791F}
+.small-btn.amber{border:0}
+.menu-management-panel{height:calc(100dvh - 150px)}
+.menu-editor-drawer{z-index:90}
+@media(max-width:1200px){.extended-settings-grid{grid-template-columns:repeat(2,minmax(180px,1fr))}}

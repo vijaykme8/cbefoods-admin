@@ -61,6 +61,8 @@ function orderCard(order){
     <div class="badge-row">
       <span class="badge ${statusClass(status)}">${escapeHtml(statusLabel(status))}</span>
       ${rider?`<span class="badge green">${escapeHtml(rider)}</span>`:'<span class="badge red">No rider</span>'}
+      ${order.priority&&order.priority!=='normal'?`<span class="badge purple">${escapeHtml(order.priority)}</span>`:''}
+      ${order.hold?'<span class="badge amber">On hold</span>':''}
       ${isDelayed(order)?'<span class="badge red">Delayed</span>':''}
       ${reasons.length?`<span class="badge red">${escapeHtml(reasons[0])}</span>`:''}
     </div>
@@ -73,6 +75,7 @@ function orderCard(order){
       <button class="small-btn" data-open-order="${escapeHtml(id)}" type="button">Details</button>
       ${nextActionButton(order)}
       <button class="small-btn" data-assign-quick="${escapeHtml(id)}" type="button">Assign</button>
+      <button class="small-btn amber" data-open-order="${escapeHtml(id)}" type="button">More</button>
       <button class="small-btn red" data-cancel-order="${escapeHtml(id)}" type="button">Cancel</button>
     </div>
   </article>`;

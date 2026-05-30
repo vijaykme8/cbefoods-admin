@@ -19,7 +19,7 @@ function listenOrders(){
     if(state.bootedOrders){
       const fresh=state.orders.filter(order=>!state.lastOrderIds.has(orderId(order))&&order.paymentStatus==='paid');
       if(fresh.length){
-        playSound();
+        if(state.settings.soundNewOrder!==false)playSound();
         toast('New paid order',`#${shortId(orderId(fresh[0]))} · ${money(orderTotal(fresh[0]))}`);
         browserNotify('New paid order',`#${shortId(orderId(fresh[0]))} · ${customerName(fresh[0])}`);
       }

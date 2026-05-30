@@ -24,7 +24,7 @@ function renderUrgencyBadges(){
   if(state.selectedDateKey)paid=paid.filter(order=>dateKey(order.createdAt||order.paidAt||order.createdAtClient)===state.selectedDateKey);
   const active=paid.filter(order=>isActiveStatus(statusOf(order)));
   const today=paid.filter(order=>isToday(order.createdAt||order.paidAt));
-  const issues=paid.filter(order=>order.issueStatus==='open'||order.issue?.status==='open'||order.refundStatus==='requested').length;
+  const issues=paid.filter(order=>order.issueStatus==='open'||order.issue?.status==='open'||order.refundStatus==='requested'||order.hold===true).length;
   setBadge('navOrdersBadge',0);
   setBadge('navIssuesBadge',issues);
   setBadge('attentionCountBadge',0);

@@ -4,7 +4,7 @@ import {state} from './modules/state.js';
 import {$,deliveryAddress,orderId,todayDateKey} from './modules/utils.js';
 import {showView,renderAll} from './modules/render.js';
 import {openDrawer,closeDrawer} from './modules/drawer.js';
-import {updateOrder,cancelOrder,saveMenuItem,resetMenuForm,saveRider,resetRiderForm,saveSettings,toggleKitchen} from './modules/operations.js';
+import {updateOrder,cancelOrder,saveMenuItem,resetMenuForm,saveRider,resetRiderForm,saveSettings,toggleKitchen,toggleMenuAvailability,adjustMenuStock} from './modules/operations.js';
 import {editMenu} from './modules/menu.js';
 import {editRider} from './modules/riders.js';
 import {requestNotifications,toast} from './modules/notifications.js';
@@ -34,6 +34,12 @@ function bindGlobal(){
 
     const editRiderBtn=event.target.closest('[data-edit-rider]');
     if(editRiderBtn)editRider(editRiderBtn.dataset.editRider);
+
+    const toggleMenuBtn=event.target.closest('[data-toggle-menu]');
+    if(toggleMenuBtn)toggleMenuAvailability(toggleMenuBtn.dataset.toggleMenu);
+
+    const stockBtn=event.target.closest('[data-menu-stock]');
+    if(stockBtn)adjustMenuStock(stockBtn.dataset.menuStock,Number(stockBtn.dataset.stockDelta||0));
 
     const copyAddress=event.target.closest('[data-copy-address]');
     if(copyAddress){

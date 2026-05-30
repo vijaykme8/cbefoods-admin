@@ -2,18 +2,36 @@ import {state} from './state.js';
 import {$} from './utils.js';
 
 export function renderSettings(){
-  $('storeName').value=state.settings.name||state.settings.storeName||'';
-  $('supportPhone').value=state.settings.supportPhone||'';
-  $('preparationMinutes').value=state.settings.preparationMinutes||state.settings.prepMinutes||'';
-  $('deliveryFee').value=state.settings.deliveryFee||'';
-  $('minimumOrder').value=state.settings.minimumOrder||'';
-  $('serviceRadiusKm').value=state.settings.serviceRadiusKm||'';
-  $('closedMessage').value=state.settings.closedMessage||'';
-  $('serviceAreas').value=state.settings.serviceAreas||'';
-  $('kitchenOpen').checked=state.settings.kitchenOpen!==false;
-  $('kitchenPaused').checked=!!state.settings.kitchenPaused;
+  setValue('storeName',state.settings.name||state.settings.storeName||'');
+  setValue('supportPhone',state.settings.supportPhone||'');
+  setValue('supportWhatsapp',state.settings.supportWhatsapp||'');
+  setValue('storeOpenSchedule',state.settings.storeOpenSchedule||'');
+  setValue('orderCutoffTime',state.settings.orderCutoffTime||'');
+  setValue('preparationMinutes',state.settings.preparationMinutes||state.settings.prepMinutes||'');
+  setValue('prepRegularMinutes',state.settings.prepRegularMinutes||'');
+  setValue('prepProteinMinutes',state.settings.prepProteinMinutes||'');
+  setValue('deliveryFee',state.settings.deliveryFee||'');
+  setValue('taxRate',state.settings.taxRate||'');
+  setValue('packingCharge',state.settings.packingCharge||'');
+  setValue('minimumOrder',state.settings.minimumOrder||'');
+  setValue('serviceRadiusKm',state.settings.serviceRadiusKm||'');
+  setValue('restaurantLat',state.settings.restaurantLat||'');
+  setValue('restaurantLng',state.settings.restaurantLng||'');
+  setValue('restaurantAddress',state.settings.restaurantAddress||'');
+  setValue('closedMessage',state.settings.closedMessage||'');
+  setValue('serviceAreas',state.settings.serviceAreas||'');
+  setValue('categoryRules',state.settings.categoryRules||'');
+  setValue('refundPolicy',state.settings.refundPolicy||'');
+  setValue('rolePermissions',state.settings.rolePermissions||'');
+  setChecked('kitchenOpen',state.settings.kitchenOpen!==false);
+  setChecked('kitchenPaused',!!state.settings.kitchenPaused);
+  setChecked('soundNewOrder',state.settings.soundNewOrder!==false);
+  setChecked('soundIssue',!!state.settings.soundIssue);
   renderKitchenPill();
 }
+
+function setValue(id,value){const el=$(id);if(el)el.value=value}
+function setChecked(id,value){const el=$(id);if(el)el.checked=!!value}
 
 export function renderKitchenPill(){
   const pill=$('kitchenStatusPill');

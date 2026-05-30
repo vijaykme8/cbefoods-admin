@@ -138,6 +138,34 @@
           <div id="closingSummary" class="summary-grid"></div>
         </section>
       </div>
+      <div class="panel-grid bottom-grid analytics-grid">
+        <section class="panel">
+          <div class="panel-head compact">
+            <h3>Peak order time</h3>
+          </div>
+          <div id="peakHoursList" class="analytics-list"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head compact">
+            <h3>Cancellation reasons</h3>
+          </div>
+          <div id="cancelReasonList" class="analytics-list"></div>
+        </section>
+      </div>
+      <div class="panel-grid bottom-grid analytics-grid">
+        <section class="panel">
+          <div class="panel-head compact">
+            <h3>Rider performance</h3>
+          </div>
+          <div id="riderPerformanceList" class="analytics-list"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head compact">
+            <h3>Customer repeat rate</h3>
+          </div>
+          <div id="repeatRateSummary" class="summary-grid"></div>
+        </section>
+      </div>
     </section>
 
     <section id="view-orders" class="view">
@@ -226,6 +254,7 @@
             <label><input id="menuHidden" type="checkbox"> Hide from customer</label>
           </div>
           <label class="field"><span>Available time</span><input id="menuAvailableTime" placeholder="Lunch / Dinner / 11 AM - 3 PM"></label>
+          <label class="field"><span>Add-ons / customizations</span><textarea id="menuAddons" rows="2" placeholder="Extra egg +₹15, Extra chapati +₹10"></textarea></label>
           <div class="button-row">
             <button class="primary-btn" type="submit">Save item</button>
             <button id="resetMenuForm" class="ghost-btn" type="button">Reset</button>
@@ -260,10 +289,15 @@
           <label class="field"><span>Status</span>
             <select id="riderStatus">
               <option value="available">Available</option>
+              <option value="busy">Busy</option>
               <option value="offline">Offline</option>
               <option value="inactive">Inactive</option>
             </select>
           </label>
+          <div class="split">
+            <label class="field"><span>Max active orders</span><input id="riderMaxActiveOrders" type="number" min="1" placeholder="2"></label>
+            <label class="field"><span>Vehicle / area</span><input id="riderArea" placeholder="Peelamedu / bike"></label>
+          </div>
           <div class="check-grid">
             <label><input id="riderActive" type="checkbox" checked> Active</label>
             <label><input id="riderVerified" type="checkbox"> Verified</label>
@@ -284,15 +318,28 @@
             <p>Control kitchen status, ETA settings, delivery cost, support phone, and store details.</p>
           </div>
         </div>
-        <div class="settings-grid">
+        <div class="settings-grid extended-settings-grid">
           <label class="field"><span>Store name</span><input id="storeName"></label>
           <label class="field"><span>Support phone</span><input id="supportPhone"></label>
+          <label class="field"><span>Support WhatsApp</span><input id="supportWhatsapp"></label>
+          <label class="field"><span>Store open schedule</span><input id="storeOpenSchedule" placeholder="Mon-Sun 10:00 AM - 10:00 PM"></label>
+          <label class="field"><span>Order cutoff time</span><input id="orderCutoffTime" type="time"></label>
           <label class="field"><span>Preparation minutes</span><input id="preparationMinutes" type="number" min="0"></label>
+          <label class="field"><span>Regular prep minutes</span><input id="prepRegularMinutes" type="number" min="0"></label>
+          <label class="field"><span>Protein prep minutes</span><input id="prepProteinMinutes" type="number" min="0"></label>
           <label class="field"><span>Delivery fee</span><input id="deliveryFee" type="number" min="0"></label>
+          <label class="field"><span>Tax %</span><input id="taxRate" type="number" min="0" step="0.1"></label>
+          <label class="field"><span>Packing charge</span><input id="packingCharge" type="number" min="0"></label>
           <label class="field"><span>Minimum order</span><input id="minimumOrder" type="number" min="0"></label>
           <label class="field"><span>Service radius km</span><input id="serviceRadiusKm" type="number" min="0" step="0.1"></label>
+          <label class="field"><span>Restaurant latitude</span><input id="restaurantLat" type="number" step="0.000001"></label>
+          <label class="field"><span>Restaurant longitude</span><input id="restaurantLng" type="number" step="0.000001"></label>
+          <label class="field full"><span>Restaurant address</span><textarea id="restaurantAddress" rows="2"></textarea></label>
           <label class="field full"><span>Closed / pause message</span><textarea id="closedMessage" rows="3"></textarea></label>
           <label class="field full"><span>Service areas</span><textarea id="serviceAreas" rows="3" placeholder="Nehru Nagar, Kalapatti, Peelamedu"></textarea></label>
+          <label class="field full"><span>Category on/off rules</span><textarea id="categoryRules" rows="3" placeholder="regular:on, protein:on, breakfast:off"></textarea></label>
+          <label class="field full"><span>Refund policy text</span><textarea id="refundPolicy" rows="3"></textarea></label>
+          <label class="field full"><span>Role permissions notes</span><textarea id="rolePermissions" rows="3" placeholder="Owner: all, Manager: orders/menu, Support: issues"></textarea></label>
           <div class="switch-card">
             <div><strong>Kitchen open</strong><small>Customers can place orders when active.</small></div>
             <input id="kitchenOpen" type="checkbox">
@@ -300,6 +347,14 @@
           <div class="switch-card">
             <div><strong>Pause new orders</strong><small>Useful during heavy kitchen load.</small></div>
             <input id="kitchenPaused" type="checkbox">
+          </div>
+          <div class="switch-card">
+            <div><strong>New order sound</strong><small>Play sound when a new paid order arrives.</small></div>
+            <input id="soundNewOrder" type="checkbox">
+          </div>
+          <div class="switch-card">
+            <div><strong>Issue alert sound</strong><small>Sound for unresolved issues or delayed orders.</small></div>
+            <input id="soundIssue" type="checkbox">
           </div>
         </div>
         <button class="primary-btn" type="submit">Save settings</button>

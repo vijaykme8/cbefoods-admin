@@ -1,3 +1,4 @@
+import {state} from './state.js';
 export const $=id=>document.getElementById(id);
 
 export function clean(value){
@@ -110,7 +111,17 @@ export function orderAgeMinutes(order){
 }
 
 export function isDelayed(order){
-  return isActiveStatus(statusOf(order))&&orderAgeMinutes(order)>45;
+  if(!isActiveStatus(statusOf(order)))return false;
+  const status=statusOf(order);
+  const base=Number(state.settings?.preparationMinutes||45)||45;
+  const prepRegular=Number(state.settings?.prepRegularMinutes||base)||base;
+  const prepProtein=Number(state.settings?.prepProteinMinutes||base)||base;
+  const category=clean(order?.category||orderItems(order)[0]?.category).toLowerCase();
+  const prepLimit=category.includes('protein')?prepProtein:prepRegular;
+  if(status==='preparing')return stageAgeMinutes(order)>prepLimit;
+  if(status==='confirmed')return orderAgeMinutes(order)>15;
+  if(status==='out_for_delivery')return stageAgeMinutes(order)>60;
+  return orderAgeMinutes(order)>base;
 }
 
 export function hasIssue(order){
@@ -119,7 +130,9 @@ export function hasIssue(order){
 
 export function attentionReasons(order){
   const reasons=[];
+  if(order?.hold)reasons.push('On hold');
   if(hasIssue(order))reasons.push('Open issue');
+  if(clean(order?.priority)==='issue')reasons.push('Priority issue');
   if(isDelayed(order))reasons.push('Delayed');
   if(isActiveStatus(statusOf(order))&&!assignedRiderName(order)&&orderAgeMinutes(order)>10)reasons.push('No rider');
   if(statusOf(order)==='preparing'&&orderAgeMinutes(order)>30)reasons.push('Kitchen delay');
