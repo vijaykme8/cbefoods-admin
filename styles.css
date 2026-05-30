@@ -1883,3 +1883,49 @@ body.sidebar-collapsed .sidebar{
 .menu-management-panel{height:calc(100dvh - 150px)}
 .menu-editor-drawer{z-index:90}
 @media(max-width:1200px){.extended-settings-grid{grid-template-columns:repeat(2,minmax(180px,1fr))}}
+
+/* exact provided sidebar svg icons */
+.cf-nav-svg{
+  width:20px;
+  height:20px;
+  display:block;
+  color:currentColor;
+  fill:currentColor;
+  stroke:none;
+  flex:0 0 auto;
+}
+
+.cf-nav-stroke{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.sample-icon,
+.dock-icon,
+.service-dot{
+  --fillg:currentColor;
+}
+
+.sample-icon .cf-nav-svg,
+.dock-icon .cf-nav-svg{
+  width:20px;
+  height:20px;
+}
+
+.service-dot .cf-nav-svg{
+  width:16px;
+  height:16px;
+}
+
+body[data-theme="light"] .theme-icon-light,
+body[data-theme="dark"] .theme-icon-dark{
+  display:block;
+}
+
+body[data-theme="light"] .theme-icon-dark,
+body[data-theme="dark"] .theme-icon-light{
+  display:none;
+}
