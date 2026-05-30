@@ -93,8 +93,6 @@ function bindGlobal(){
   }
   const sidebarThemeShortcut=$('sidebarThemeShortcut');
   if(sidebarThemeShortcut)sidebarThemeShortcut.addEventListener('click',toggleTheme);
-  const sidebarQuickCreate=$('sidebarQuickCreate');
-  if(sidebarQuickCreate)sidebarQuickCreate.addEventListener('click',()=>{showView('menu'); const openMenuFormBtn=$('openMenuFormBtn'); if(openMenuFormBtn)openMenuFormBtn.click();});
   $('exportOrdersBtn').addEventListener('click',exportOrdersCsv);
   $('clearDateFilterBtn').addEventListener('click',()=>{state.selectedDateKey='';renderAll()});
   const todayDateBtn=$('todayDateBtn');
