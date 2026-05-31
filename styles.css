@@ -1929,3 +1929,45 @@ body[data-theme="light"] .theme-icon-dark,
 body[data-theme="dark"] .theme-icon-light{
   display:none;
 }
+
+/* peparo sidebar logo update */
+.brand-icon{
+  overflow:hidden;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  background:transparent!important;
+}
+
+.brand-logo-img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+body[data-theme="light"] .brand-logo-dark,
+body:not([data-theme]) .brand-logo-dark{
+  display:block;
+}
+
+body[data-theme="light"] .brand-logo-light,
+body:not([data-theme]) .brand-logo-light{
+  display:none;
+}
+
+body[data-theme="dark"] .brand-logo-dark{
+  display:none;
+}
+
+body[data-theme="dark"] .brand-logo-light{
+  display:block;
+}
+
+.sidebar-brand{
+  align-items:center;
+}
+
+.brand-word{
+  letter-spacing:-0.04em;
+}
